@@ -12,7 +12,7 @@ include( 'templates/sidebar-nav.php' );
 <div id="content" class="container">
 
 <?php
-// 加载搜索模块
+// Load search module
 if( io_get_option('search_position') && in_array("home",io_get_option('search_position')) ){
     get_template_part( 'templates/tools','search' );
 } else {

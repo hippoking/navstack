@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-// 最新文章 ------------------------------------------------------
+// Latest posts ------------------------------------------------------
 class new_cat extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -137,7 +137,7 @@ function new_cat_init() {
 	register_widget( 'new_cat' );
 }
 
-// 最新公告 ------------------------------------------------------
+// Latest bulletins ------------------------------------------------------
 class new_bulletin extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -247,7 +247,7 @@ function new_bulletin_init() {
 	register_widget( 'new_bulletin' );
 }
 
-// 热评文章 ------------------------------------------------------
+// Most commented posts ------------------------------------------------------
 class hot_comment extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -392,7 +392,7 @@ function hot_comment_init() {
 }
 add_action( 'widgets_init', 'hot_comment_init' );
 
-// 热门标签 ------------------------------------------------------
+// Popular tags ------------------------------------------------------
 class cx_tag_cloud extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -482,7 +482,7 @@ function cx_tag_cloud_init() {
 }
 add_action( 'widgets_init', 'cx_tag_cloud_init' );
  
-// 相关文章 ------------------------------------------------------
+// Related posts ------------------------------------------------------
 class related_post extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -655,7 +655,7 @@ function related_post_init() {
 }
 add_action( 'widgets_init', 'related_post_init' );
  
-// 广告位 ------------------------------------------------------
+// Ad slot ------------------------------------------------------
 class advert extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -729,7 +729,7 @@ function advert_init() {
 }
 add_action( 'widgets_init', 'advert_init' );
 
-// 关于本站 ------------------------------------------------------
+// About this site ------------------------------------------------------
 class about extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -893,7 +893,7 @@ function about_init() {
 }
 add_action( 'widgets_init', 'about_init' );
 
-// 关于作者 ------------------------------------------------------
+// About the author ------------------------------------------------------
 class about_author extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -1004,7 +1004,7 @@ function about_author_init() {
 add_action( 'widgets_init', 'about_author_init' );
  
 
-// 热门文章 ------------------------------------------------------
+// Popular posts ------------------------------------------------------
 class hot_post_img extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
@@ -1118,7 +1118,7 @@ add_action( 'widgets_init', 'hot_post_img_init' );
 
   
 
-// 热门网址 ------------------------------------------------------
+// Popular sites ------------------------------------------------------
 class hot_sites extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(

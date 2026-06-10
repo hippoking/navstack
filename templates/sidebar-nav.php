@@ -17,7 +17,7 @@ if(io_get_option('sort_menu')){
 //)); 
 $categories= get_menu_list('nav_menu');
 
-// 兼容低版本
+// Backward compatibility for older versions
 function get_cate_ico($class){
     if(strpos($class,' ') !== false){ 
         return $class; 

@@ -18,18 +18,18 @@ include( 'templates/sidebar-nav.php' );
                     if ($i < $post_num) {
                         $custom_taxterms = wp_get_object_terms( $post->ID,'apps', array('fields' => 'ids') );
                         $args = array(
-                        'post_type' => 'app',// 文章类型
+                        'post_type' => 'app',// Post type
                         'post_status' => 'publish',
-                        'posts_per_page' => 6, // 文章数量
-                        'orderby' => 'rand', // 随机排序
+                        'posts_per_page' => 6, // Number of posts
+                        'orderby' => 'rand', // Random order
                         'tax_query' => array(
                             array(
-                                'taxonomy' => 'apps', // 分类法
+                                'taxonomy' => 'apps', // Taxonomy
                                 'field' => 'id',
                                 'terms' => $custom_taxterms
                             )
                         ),
-                        'post__not_in' => array ($post->ID), // 排除当前文章
+                        'post__not_in' => array ($post->ID), // Exclude the current post
                         );
                         $related_items = new WP_Query( $args ); 
                         if ($related_items->have_posts()) :

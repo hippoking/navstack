@@ -1,21 +1,21 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 <?php 
 while( have_posts() ): the_post();                   
-$name          = get_the_title();//资源名称  
-$version       = get_post_meta(get_the_ID(), '_down_version', true);//当前版本
-$info          = htmlspecialchars(get_post_meta(get_the_ID(), '_sites_sescribe', true));//说明与描述
-$preview       = get_post_meta(get_the_ID(), '_down_preview', true);//演示地址
-$formal        = get_post_meta(get_the_ID(), '_down_formal', true);//官方地址
-//准备移除
-//$baidu         = get_post_meta(get_the_ID(), '_sites_down', true);//百度网盘
-//$baidupassword = get_post_meta(get_the_ID(), '_sites_password', true);//百度网盘密码
+$name          = get_the_title();// Post title
+$version       = get_post_meta(get_the_ID(), '_down_version', true);// Current version
+$info          = htmlspecialchars(get_post_meta(get_the_ID(), '_sites_sescribe', true));// Notes and description
+$preview       = get_post_meta(get_the_ID(), '_down_preview', true);// Demo URL
+$formal        = get_post_meta(get_the_ID(), '_down_formal', true);// Official URL
+// To be removed
+//$baidu         = get_post_meta(get_the_ID(), '_sites_down', true);// Baidu Netdisk
+//$baidupassword = get_post_meta(get_the_ID(), '_sites_password', true);// Baidu Netdisk password
 //-------
 
-$decompression = get_post_meta(get_the_ID(), '_dec_password', true);//解压密码
-$size          = get_post_meta(get_the_ID(), '_down_size', true);//资源大小
-$platform      = get_post_meta(get_the_ID(), '_app_platform', true);//资源大小
-$down_list     = get_post_meta(get_the_ID(), '_down_url_list', true);//下载列表
-$down_screen   = get_post_meta(get_the_ID(), '_sites_screenshot', true); //资源截图
+$decompression = get_post_meta(get_the_ID(), '_dec_password', true);// Extraction password
+$size          = get_post_meta(get_the_ID(), '_down_size', true);// Resource size
+$platform      = get_post_meta(get_the_ID(), '_app_platform', true);// Platform
+$down_list     = get_post_meta(get_the_ID(), '_down_url_list', true);// Download list
+$down_screen   = get_post_meta(get_the_ID(), '_sites_screenshot', true); // Resource screenshots
 $contentinfo   = get_the_content();
 
 $default_ico = get_theme_file_uri('/images/t.png');
@@ -36,7 +36,7 @@ if($imgurl == ''){
 					
 			<div class="row app-content py-5 mb-xl-5 mb-0 mx-xxl-n5">
                 <?php get_template_part( 'templates/fx' ); ?>
-                <!-- 资源信息 -->
+                <!-- Resource info -->
                 <div class="col">
                     <div class="d-md-flex mt-n3 mb-5 my-xl-0">
                         <div class="app-ico text-center mr-0 mr-md-2 mb-3 mb-md-0">
@@ -83,8 +83,8 @@ if($imgurl == ''){
                         </div>
                     </div>
                 </div> 
-                <!-- 资源信息 end -->
-                <!-- 截图幻灯片 -->
+                <!-- Resource info end -->
+                <!-- Screenshot carousel -->
                 <?php if($down_screen) { 
                 $down_screen = explode( ',', $down_screen ); ?>
                 <div class="col-12 col-xl-5"> 
@@ -122,7 +122,7 @@ if($imgurl == ''){
                     </div>
                 </div> 
                 <?php } ?>
-                <!-- 截图幻灯片 end -->
+                <!-- Screenshot carousel end -->
 			</div>  
 			
             <div class="site-content card"> 

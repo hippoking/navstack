@@ -31,13 +31,13 @@ if( ! class_exists( 'CSF_Field_sorter' ) ) {
       // iowen.cn 
       if( isset($this->field['class']) && $this->field['class'] == 'iowen_cn' ){
         $term = get_all_taxonomy();
-        $new_disabled =array_intersect_key($term,$disabled_options);//交集
+        $new_disabled =array_intersect_key($term,$disabled_options);// Intersection
         if( ! empty( $enabled_options ) ){
-          $term = array_diff_assoc($term,$new_disabled);//删除已经禁用的
+          $term = array_diff_assoc($term,$new_disabled);// Remove already-disabled items
         }
         $all = array_merge($enabled_options,$term);
         $new_enabled = array_intersect_assoc($all,$term); 
-        $add_options = array_keys(array_diff_key($term,$enabled_options)); //获取新增的项
+        $add_options = array_keys(array_diff_key($term,$enabled_options)); // Get newly added items
         $enabled_options = $new_enabled;
         $disabled_options = $new_disabled;
       }
@@ -49,7 +49,7 @@ if( ! class_exists( 'CSF_Field_sorter' ) ) {
       echo '<ul class="csf-enabled">';
       if( ! empty( $enabled_options ) ) {
         foreach( $enabled_options as $key => $value ) {
-          // iowen.cn 追加新增的项到列表，并且标记
+          // iowen.cn append newly added items to the list and mark them
           if(isset($add_options) && in_array($key,$add_options))
             echo '<li style="background: rgb(208, 255, 173);"><input type="hidden" name="'. $this->field_name( '[enabled]['. $key .']' ) .'" value="'. $value .'"/><label>'. $value .'</label></li>';
           else

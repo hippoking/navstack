@@ -1,5 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } 
-// 站内搜索框，mini搜索框
+// On-site search box, mini variant
 ?> 
 <div id="search" class="s-search mx-auto my-4">
 	<form name="formsearch" method="get" action="<?php bloginfo('url'); ?>" id="super-search-fm">

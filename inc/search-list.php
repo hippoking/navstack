@@ -1,10 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } 
 /**
- * 搜索工具搜索引擎列表
- * 修改后如果前台不显示选单，请清空浏览器缓存
- * 如果还是不显示，请检测对应 default 对应的 id 是否存在
- * 修改默认项请设置“常规”里 default 的值
- * 排序请调整先后顺序
+ * Search engine list for the search tool
+ * If the menu does not appear on the frontend after changes, clear the browser cache
+ * If it still does not appear, check whether the ID referenced by default exists
+ * To change the default item, set the default value under "General"
+ * Reorder items by adjusting their sequence
  */
 $search_list = array(
     array(

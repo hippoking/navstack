@@ -1,31 +1,31 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-//图片上传
+// Image upload
 add_action('wp_ajax_nopriv_img_upload', 'io_img_upload');  
 add_action('wp_ajax_img_upload', 'io_img_upload');
 function io_img_upload(){  
 	$extArr = array("jpg", "png", "jpeg");
 	$file = $_FILES['files'];
 	if ( !empty( $file ) ) {
-	    $wp_upload_dir = wp_upload_dir();                                     // 获取上传目录信息
+	    $wp_upload_dir = wp_upload_dir();                                     // Get upload directory info
 	    $basename = $file['name'];
 	    $baseext = pathinfo($basename, PATHINFO_EXTENSION);
 	    $dataname = date("YmdHis_").substr(md5(time()), 0, 8) . '.' . $baseext;
 	    $filename = $wp_upload_dir['path'] . '/' . $dataname;
-	    rename( $file['tmp_name'], $filename );                               // 将上传的图片文件移动到上传目录
+	    rename( $file['tmp_name'], $filename );                               // Move the uploaded image file to the upload directory
 	    $attachment = array(
-	        'guid'           => $wp_upload_dir['url'] . '/' . $dataname,      // 外部链接的 url
-	        'post_mime_type' => $file['type'],                                // 文件 mime 类型
-	        'post_title'     => preg_replace( '/\.[^.]+$/', '', $basename ),  // 附件标题，采用去除扩展名之后的文件名
-	        'post_content'   => '',                                           // 文章内容，留空
+	        'guid'           => $wp_upload_dir['url'] . '/' . $dataname,      // External URL
+	        'post_mime_type' => $file['type'],                                // File MIME type
+	        'post_title'     => preg_replace( '/\.[^.]+$/', '', $basename ),  // Attachment title, using the filename without extension
+	        'post_content'   => '',                                           // Post content, left empty
 	        'post_status'    => 'inherit'
 	    );
-	    $attach_id = wp_insert_attachment( $attachment, $filename );          // 插入附件信息
+	    $attach_id = wp_insert_attachment( $attachment, $filename );          // Insert attachment data
 	    if($attach_id != 0){
-	        require_once( ABSPATH . 'wp-admin/includes/image.php' );          // 确保包含此文件，因为wp_generate_attachment_metadata（）依赖于此文件。
+	        require_once( ABSPATH . 'wp-admin/includes/image.php' );          // Ensure this file is loaded because wp_generate_attachment_metadata() depends on it.
 	        $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
-	        wp_update_attachment_metadata( $attach_id, $attach_data );        // 生成附件的元数据，并更新数据库记录。
+	        wp_update_attachment_metadata( $attach_id, $attach_data );        // Generate attachment metadata and update the database record.
 	        print_r(json_encode(array('status'=>1,'msg'=>__('图片添加成功','i_theme'),'data'=>array('id'=>$attach_id,'src'=>wp_get_attachment_url( $attach_id ),'title'=>$basename))));
 	        exit();
 	    }else{
@@ -35,7 +35,7 @@ function io_img_upload(){
 	} 
 }
 
-//删除图片
+// Delete image
 add_action('wp_ajax_nopriv_img_remove', 'io_img_remove');  
 add_action('wp_ajax_img_remove', 'io_img_remove');
 function io_img_remove(){    
@@ -56,7 +56,7 @@ function io_img_remove(){
 }
 
 
-// 接收前端ajax参数
+// Receive frontend ajax parameters
 add_action('wp_ajax_title_checks', 'duplicate_title_checks_callback');
 	function duplicate_title_checks_callback(){
 	global $wpdb;           
@@ -74,7 +74,7 @@ add_action('wp_ajax_title_checks', 'duplicate_title_checks_callback');
 }
 
 
-//提交文章
+// Submit post
 add_action('wp_ajax_nopriv_contribute_post', 'io_contribute');  
 add_action('wp_ajax_contribute_post', 'io_contribute');
 function io_contribute(){  
@@ -83,7 +83,7 @@ function io_contribute(){
 		error('{"status":2,"msg":"'.sprintf( __('您投稿也太勤快了吧，“%1$s”秒后再试！', 'i_theme'), $delay - ( time() - $_COOKIE["tougao"] ) ).'"}');
 	} 
 	  
-	//表单变量初始化
+	// Initialize form variables
 	$sites_type         = isset( $_POST['tougao_type'] ) ? trim(htmlspecialchars($_POST['tougao_type'], ENT_QUOTES)) : '';
 	$sites_link         = isset( $_POST['tougao_sites_link'] ) ? trim(htmlspecialchars($_POST['tougao_sites_link'], ENT_QUOTES)) : '';
 	$sites_sescribe     = isset( $_POST['tougao_sites_sescribe'] ) ? trim(htmlspecialchars($_POST['tougao_sites_sescribe'], ENT_QUOTES)) : '';
@@ -96,12 +96,12 @@ function io_contribute(){
 	$publish            = isset( $_POST['is_publish'] ) ? $_POST['is_publish'] : '0';
 
 	
-	$down_version       = isset( $_POST['tougao_down_version'] ) ? trim(htmlspecialchars($_POST['tougao_down_version'], ENT_QUOTES)) : '';//资源版本
-	$down_formal        = isset( $_POST['tougao_down_formal'] ) ? trim(htmlspecialchars($_POST['tougao_down_formal'], ENT_QUOTES)) : '';//官网链接
-	$sites_down         = isset( $_POST['tougao_sites_down'] ) ? trim(htmlspecialchars($_POST['tougao_sites_down'], ENT_QUOTES)) : '';//网盘链接
-	$down_preview       = isset( $_POST['tougao_down_preview'] ) ? trim(htmlspecialchars($_POST['tougao_down_preview'], ENT_QUOTES)) : '';//演示链接
-	$sites_password     = isset( $_POST['tougao_sites_password'] ) ? trim(htmlspecialchars($_POST['tougao_sites_password'], ENT_QUOTES)) : '';//网盘密码
-	$down_decompression = isset( $_POST['tougao_down_decompression'] ) ? trim(htmlspecialchars($_POST['tougao_down_decompression'], ENT_QUOTES)) : '';//解压密码
+	$down_version       = isset( $_POST['tougao_down_version'] ) ? trim(htmlspecialchars($_POST['tougao_down_version'], ENT_QUOTES)) : '';// Resource version
+	$down_formal        = isset( $_POST['tougao_down_formal'] ) ? trim(htmlspecialchars($_POST['tougao_down_formal'], ENT_QUOTES)) : '';// Official URL
+	$sites_down         = isset( $_POST['tougao_sites_down'] ) ? trim(htmlspecialchars($_POST['tougao_sites_down'], ENT_QUOTES)) : '';// Netdisk URL
+	$down_preview       = isset( $_POST['tougao_down_preview'] ) ? trim(htmlspecialchars($_POST['tougao_down_preview'], ENT_QUOTES)) : '';// Demo URL
+	$sites_password     = isset( $_POST['tougao_sites_password'] ) ? trim(htmlspecialchars($_POST['tougao_sites_password'], ENT_QUOTES)) : '';// Netdisk password
+	$down_decompression = isset( $_POST['tougao_down_decompression'] ) ? trim(htmlspecialchars($_POST['tougao_down_decompression'], ENT_QUOTES)) : '';// Extraction password
 
 	$typename = __('网站','i_theme');
 	if( $sites_type == 'down' )
@@ -116,7 +116,7 @@ function io_contribute(){
 		$post_status = 'publish';
 	}
 
-	// 表单项数据验证
+	// Validate form fields
 	if ( empty($title) || mb_strlen($title) > 30 ) {
 		error('{"status":4,"msg":"'.$typename.__('名称必须填写，且长度不得超过30字。','i_theme').'"}');
 	}
@@ -147,7 +147,7 @@ function io_contribute(){
 		error('{"status":4,"msg":"'.__('必须添加二维码。','i_theme').'"}');
 	}
 	//if ( empty($content) || mb_strlen($content) > 10000 || mb_strlen($content) < 6) {
-	//	error('{"status":4,"msg":"内容必须填写，且长度不得超过10000字，不得少于6字。"}');
+	//	error('{"status":4,"msg":"Content is required, must not exceed 10000 characters, and must be at least 6 characters."}');
 	//}
 	if( $sites_type == 'down'){
 		if ( empty($down_formal) && empty($sites_down) ) {
@@ -176,15 +176,15 @@ function io_contribute(){
 	$tougao = array(
 		'comment_status'   => 'closed',
 		'ping_status'      => 'closed',
-		//'post_author'      => 1,//用于投稿的用户ID
+		//'post_author'      => 1,// User ID used for submissions
 		'post_title'       => $title,
 		'post_content'     => $content,
 		'post_status'      => $post_status,
 		'post_type'        => 'sites',
-		//'tax_input'        => array( 'favorites' => array($category) ) //游客不可用
+		//'tax_input'        => array( 'favorites' => array($category) ) // Not available for guests
 	);
 	
-	// 将文章插入数据库
+	// Insert the post into the database
 	$status = wp_insert_post( $tougao );
 	if ($status != 0){
 		global $wpdb;
@@ -203,8 +203,8 @@ function io_contribute(){
 			add_post_meta($status, '_thumbnail', $sites_ico); 
 		if( !empty($wechat_qr))
 			add_post_meta($status, '_wechat_qr', $wechat_qr); 
-		wp_set_post_terms( $status, array($category), 'favorites'); //设置文章分类
-		if(!empty($keywords)) wp_set_post_terms( $status, explode(',', $keywords), 'sitetag'); //设置文章tag
+		wp_set_post_terms( $status, array($category), 'favorites'); // Set post category
+		if(!empty($keywords)) wp_set_post_terms( $status, explode(',', $keywords), 'sitetag'); // Set post tags
 		setcookie("tougao", time(), time()+$delay+10);
 		error('{"status":1,"msg":"'.__('投稿成功！','i_theme').'"}');
 	}else{
@@ -213,7 +213,7 @@ function io_contribute(){
 }
  
 
-//提交评论
+// Submit comment
 add_action('wp_ajax_nopriv_ajax_comment', 'fa_ajax_comment_callback');
 add_action('wp_ajax_ajax_comment', 'fa_ajax_comment_callback');
 function fa_ajax_comment_callback(){
@@ -228,7 +228,7 @@ function fa_ajax_comment_callback(){
     }
     $user = wp_get_current_user();
     do_action('set_comment_cookies', $comment, $user);
-    $GLOBALS['comment'] = $comment; //根据你的评论结构自行修改，如使用默认主题则无需修改
+    $GLOBALS['comment'] = $comment; // Adjust this to match your comment structure; no change is needed if you use the default theme
     ?> 
 	<li <?php comment_class('comment'); ?> id="li-comment-<?php comment_ID() ?>" style="position: relative;">
 		<div id="comment-<?php comment_ID(); ?>" class="comment_body d-flex flex-fill">	
@@ -264,7 +264,7 @@ function fa_ajax_comment_callback(){
 }
 
 
-// 查重
+// Check for duplicates
 add_action('wp_ajax_nopriv_check_duplicate', 'io_check_duplicate');  
 add_action('wp_ajax_check_duplicate', 'io_check_duplicate');
 function io_check_duplicate(){ 
@@ -287,7 +287,7 @@ function io_check_duplicate(){
 	exit;  
 }
 
-//点赞
+// Like
 add_action('wp_ajax_nopriv_post_like', 'io_like_ajax_handler');  
 add_action('wp_ajax_post_like', 'io_like_ajax_handler');
 function io_like_ajax_handler(){  
@@ -313,7 +313,7 @@ function io_like_ajax_handler(){
 	}
 	exit;  
 }
-//设置链接失败
+// Mark link failure
 add_action('wp_ajax_nopriv_link_failed', 'io_link_failed');  
 add_action('wp_ajax_link_failed', 'io_link_failed');
 function io_link_failed(){  
@@ -339,7 +339,7 @@ function io_link_failed(){
 	exit;  
 }
 
-// 增加文章浏览统计
+// Increment post view statistics
 add_action( 'wp_ajax_io_postviews', 'io_n_increment_views' );
 add_action( 'wp_ajax_nopriv_io_postviews', 'io_n_increment_views' );
 function io_n_increment_views() {
@@ -358,7 +358,7 @@ function io_n_increment_views() {
 	}
 }
 
-// 增加国家数据，临时方法
+// Add country data, temporary method
 add_action( 'wp_ajax_io_set_country', 'io_set_country' );
 add_action( 'wp_ajax_nopriv_io_set_country', 'io_set_country' );
 function io_set_country() {
@@ -371,7 +371,7 @@ function io_set_country() {
 		exit();
 	}
 }
-//显示模式切换
+// Display mode switch
 add_action('wp_ajax_nopriv_switch_dark_mode', 'io_switch_dark_mode');  
 add_action('wp_ajax_switch_dark_mode', 'io_switch_dark_mode');
 function io_switch_dark_mode(){    
@@ -382,7 +382,7 @@ function io_switch_dark_mode(){
 	exit; 
 }
 
-// 增加app下载量
+// Increment app download count
 add_action( 'wp_ajax_down_count', 'io_add_down_count' );
 add_action( 'wp_ajax_nopriv_down_count', 'io_add_down_count' );
 function io_add_down_count() {
@@ -401,7 +401,7 @@ function io_add_down_count() {
 	}
 }
 
-// 加载热门网址   
+// Load popular sites   
 add_action( 'wp_ajax_load_hot_sites' , 'load_hot_sites' );
 add_action( 'wp_ajax_nopriv_load_hot_sites' , 'load_hot_sites' );
 function load_hot_sites(){
@@ -445,7 +445,7 @@ function load_hot_sites(){
 	
     die();
 }
-// 加载热门app
+// Load popular apps
 add_action( 'wp_ajax_load_hot_app' , 'load_hot_app' );
 add_action( 'wp_ajax_nopriv_load_hot_app' , 'load_hot_app' );
 function load_hot_app(){
@@ -486,7 +486,7 @@ function load_hot_app(){
     die();
 }
 
-// 首页TAB模式ajax加载内容     
+// Ajax load content for homepage tab mode     
 add_action( 'wp_ajax_load_home_tab' , 'load_home_tab_post' );
 add_action( 'wp_ajax_nopriv_load_home_tab' , 'load_home_tab_post' );
 function load_home_tab_post(){
@@ -516,7 +516,7 @@ function load_home_tab_post(){
 			)
 		),
     );
-    // 不同类型的排序规则
+    // Sorting rules for different types
     if($taxonomy == "favorites") {
         $args['meta_key'] ='_sites_order'; 
         $args['orderby']  =array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ); 

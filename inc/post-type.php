@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
  
-// 网址
+// Sites
 add_action( 'init', 'post_type_sites' );
 function post_type_sites() {
 	$labels = array(
@@ -39,7 +39,7 @@ function post_type_sites() {
 	); 
 	register_post_type( 'sites', $args );
 }
-// 网址分类
+// Site categories
 add_action( 'init', 'create_sites_taxonomies', 0 );
 function create_sites_taxonomies() {
 	$labels = array(
@@ -68,7 +68,7 @@ function create_sites_taxonomies() {
 
 	register_taxonomy( 'favorites', array( 'sites' ), $args );
 }
-// 网址标签
+// Site tags
 add_action( 'init', 'create_sites_tag_taxonomies', 0 );
 function create_sites_tag_taxonomies() {
 	$labels = array(
@@ -139,7 +139,7 @@ function post_type_apps() {
 
 	register_post_type( 'app', $args );
 }
-// app分类
+// App categories
 add_action( 'init', 'create_apps_taxonomies', 0 );
 function create_apps_taxonomies() {
 	$labels = array(
@@ -168,7 +168,7 @@ function create_apps_taxonomies() {
 
 	register_taxonomy( 'apps', array( 'app' ), $args );
 }
-// app标签
+// App tags
 add_action( 'init', 'create_apps_tag_taxonomies', 0 );
 function create_apps_tag_taxonomies() {
 	$labels = array(
@@ -200,7 +200,7 @@ function create_apps_tag_taxonomies() {
 
 
 if (io_get_option('show_bulletin')) {
-	// 公告
+	// Bulletin
 	add_action( 'init', 'post_type_bulletin' );
 	function post_type_bulletin() {
 		$labels = array(
@@ -241,7 +241,7 @@ if (io_get_option('show_bulletin')) {
 	}
 }
 /**
- * 保存排序
+ * Save sort order
  *
  * @param int $term_id
  */
@@ -259,7 +259,7 @@ function save_term_order( $term_id ) {
 }
 
 /**
- * 设置自定义文章类型的固定链接结构为 ID.html 
+ * Set the custom post type permalink structure to ID.html 
  * https://www.wpdaxue.com/custom-post-type-permalink-code.html
  */
 $iotypes = array(
@@ -325,16 +325,16 @@ function io_custom_post_type_rewrites_init_name(){
 	}
 }
 
-//此部分功能是生成分类下拉菜单
+// This section generates the category dropdown menu
 add_action('restrict_manage_posts','io_post_type_filter',10,2);
 function io_post_type_filter($post_type, $which){
-    if('sites' !== $post_type){ //这里为自定义文章类型，需修改
-      return; //检查是否是我们需要的文章类型
+    if('sites' !== $post_type){ // This is the custom post type and may need to be changed
+      return; // Check whether this is the post type we need
     }
-    $taxonomy_slug     = 'favorites'; //这里为自定义分类法，需修改
+    $taxonomy_slug     = 'favorites'; // This is the custom taxonomy and may need to be changed
     $taxonomy          = get_taxonomy($taxonomy_slug);
     $selected          = '';
-    $request_attr      = 'favorites'; //这里为自定义分类法，需修改
+    $request_attr      = 'favorites'; // This is the custom taxonomy and may need to be changed
     if ( isset($_REQUEST[$request_attr] ) ) {
       $selected = $_REQUEST[$request_attr];
     }
@@ -350,7 +350,7 @@ function io_post_type_filter($post_type, $which){
       'hide_empty'      =>  false, // Don't show posts w/o terms
     ));
 }
-//此部分功能是列出指定分类下的所有文章
+// This section lists all posts under the specified category
 add_filter('parse_query','io_work_convert_restrict'); 
 function io_work_convert_restrict($query) {  
     global $pagenow;  
@@ -369,7 +369,7 @@ function io_work_convert_restrict($query) {
 } 
 
 /**
- * 文章列表添加自定义字段
+ * Add custom fields to the post list
  * https://www.iowen.cn/wordpress-quick-edit
  */
 add_filter('manage_edit-sites_columns', 'io_ordinal_manage_posts_columns');
@@ -392,7 +392,7 @@ function io_ordinal_manage_posts_custom_column($column_name,$id){
 	endswitch;
 }
 
-//分类列表添加自定义字段
+// Add custom fields to the category list
 add_filter('manage_edit-favorites_columns', 'io_id_manage_tags_columns');
 add_action('manage_favorites_custom_column','io_id_manage_tags_custom_column',10,3);
 function io_id_manage_tags_columns($columns){
@@ -410,7 +410,7 @@ function io_id_manage_tags_custom_column($null,$column_name,$id){
 }
 
 /**
- * 文章列表添加自定义字段
+ * Add custom fields to the post list
  * 
  */
 add_action( 'admin_head', 'io_custom_css' );
@@ -422,7 +422,7 @@ function io_custom_css(){
 	</style>';
 }
 
-//文章列表添加排序规则
+// Add sorting rules to the post list
 add_filter('manage_edit-sites_sortable_columns', 'sort_sites_order_column');
 //add_filter('manage_edit-favorites_sortable_columns', 'sort_favorites_order_column');
 add_action('pre_get_posts', 'sort_sites_order');
@@ -454,10 +454,10 @@ function sort_sites_order($query) {
 add_action('quick_edit_custom_box',  'io_add_quick_edit', 10, 2);
 function io_add_quick_edit($column_name, $post_type) {
 	if ($column_name == 'ordinal') {
-		//请注意：<fieldset>类可以是：
-		//inline-edit-col-left，inline-edit-col-center，inline-edit-col-right
-		//所有列均为float：left，
-		//因此，如果要在左列，请使用clear：both元素
+		// Note: the <fieldset> class can be:
+		// inline-edit-col-left, inline-edit-col-center, inline-edit-col-right
+		// All columns use float: left,
+		// so if you want the left column, use an element with clear: both
 		echo '
 		<fieldset class="inline-edit-col-left" style="clear: both;">
 			<div class="inline-edit-col"> 
@@ -484,13 +484,13 @@ function io_add_quick_edit($column_name, $post_type) {
 }
 
 
-//保存和更新快速编辑数据
+// Save and update quick edit data
 add_action('save_post', 'io_save_quick_edit_data');
 function io_save_quick_edit_data($post_id) {
-    //如果是自动保存日志，并非我们所提交数据，那就不处理
+    // If this is an autosave, not submitted by us, do nothing
     if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
-    // 验证权限，'sites' 为文章类型，默认为 'post' ,这里为我自定义的文章类型'sites'
+    // Verify permissions. 'sites' is the post type; the default is 'post'. Here it is our custom post type 'sites'
     if ( 'sites' == isset($_POST['post_type'] )) {
         if ( !current_user_can( 'edit_page', $post_id ) )
             return $post_id;
@@ -499,15 +499,15 @@ function io_save_quick_edit_data($post_id) {
         return $post_id;
 	}  
 	$post = get_post($post_id); 
-	// 'ordinal' 与前方代码对应
+	// 'ordinal' corresponds to the code above
     if (isset($_POST['ordinal']) && ($post->post_type != 'revision')) {
         $left_menu_id = esc_attr($_POST['ordinal']);
         if ($left_menu_id)
-			update_post_meta( $post_id, '_sites_order', $left_menu_id);// ‘_sites_order’为自定义字段
+			update_post_meta( $post_id, '_sites_order', $left_menu_id);// '_sites_order' is a custom field
     } 
 }
 
-//输出js
+// Output JS
 add_action('admin_footer', 'io_quick_edit_javascript');
 function io_quick_edit_javascript() {
 	$current_screen = get_current_screen(); 

@@ -2,7 +2,7 @@
 <?php while( have_posts() ): the_post();?>
             <div class="row site-content py-4 py-md-5 mb-xl-5 mb-0 mx-xxl-n5">
                 <?php get_template_part( 'templates/fx' ); ?>
-                <!-- 网址信息 -->
+                <!-- Site info -->
 	    					<div class="col-12 col-sm-5 col-md-4 col-lg-3">
                                 <?php 
                                 $m_link_url  = get_post_meta(get_the_ID(), '_sites_link', true);  
@@ -103,7 +103,7 @@
 
 	    						</div>
                             </div>
-                <!-- 网址信息 end -->
+                <!-- Site info end -->
                             <?php if(io_get_option('ad_right_s')) { ?>
                             <div class="col-12 col-md-12 col-lg-4 mt-4 mt-lg-0">
                                 <div class="apd apd-right">

@@ -2,32 +2,32 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * 文章缩略图或图片处理操作相关
+ * Post thumbnail and image handling helpers
  */
 
 /**
- * 添加特色缩略图支持
- * 如果需要，取消下面注释
+ * Add featured thumbnail support
+ * Uncomment below if needed
  */
 if ( function_exists('add_theme_support') )add_theme_support('post-thumbnails');
 
 /**
- * 获取特色图地址
+ * Get the featured image URL
  */
 function io_theme_get_thumb($post = null){
 	if( $post === null ){
     	global $post;
     }
-	if( has_post_thumbnail() ){    //如果有特色缩略图，则输出缩略图地址
+	if( has_post_thumbnail() ){    // If a featured thumbnail exists, output its URL
 		$thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
 		$post_thumbnail_src = $thumbnail_src [0];
 	} else {
 		$post_thumbnail_src = '';
 		$strResult = io_get_post_first_img(true);
 		if(!empty($strResult[1][0])){
-			$post_thumbnail_src = $strResult[1][0];   //获取该图片 src
+			$post_thumbnail_src = $strResult[1][0];   // Get the image src
 		}else{	
-            //如果日志中没有图片，则显示随机图片
+            // If the post contains no image, use a random image
             $random_img = explode(PHP_EOL , io_get_option('random_head_img'));
             $random_img_array = array_rand($random_img);
             $post_thumbnail_src = trim($random_img[$random_img_array]);
@@ -37,7 +37,7 @@ function io_theme_get_thumb($post = null){
 }
 
 /**
- * 获取/输出缩略图地址
+ * Get/output the thumbnail URL
  */
 function io_get_post_first_img($is_array = false){ 
      
@@ -55,7 +55,7 @@ function io_get_post_first_img($is_array = false){
 }
     
 /**
- * 获取/输出缩略图地址
+ * Get/output the thumbnail URL
  */
 function io_get_thumbnail($size = 'thumbnail',$isback = false){
     $post_thumbnail_src = io_theme_get_thumb();
@@ -71,14 +71,14 @@ function io_get_thumbnail($size = 'thumbnail',$isback = false){
 }
 
 /**
- * 获取Timthumb裁剪的图片链接
+ * Get the Timthumb cropped image URL
  */
 function getTimthumbImage($url, $size = 'thumbnail', $q='70', $nohttp = false){
     if($nohttp)
         $timthumb =  get_theme_file_uri('/timthumb.php');
     else
         $timthumb = str_replace(array('https:','http:'),array('',''), get_theme_file_uri()) . '/timthumb.php';
-    // 不裁剪Gif，因为生成黑色无效图片
+    // Do not crop GIFs, because it generates invalid black images
     $imgtype = strtolower(substr($url, strrpos($url, '.')));
     if($imgtype === 'gif') return $url;
 
@@ -88,11 +88,11 @@ function getTimthumbImage($url, $size = 'thumbnail', $q='70', $nohttp = false){
 
 
 /**
- * 根据用户设置选择合适的图片链接处理方式(timthumb|cdn)
+ * Choose the appropriate image URL handling method based on user settings (timthumb|cdn)
  */
 function getOptimizedImageUrl($url, $size, $q='70', $nohttp = false){
     if (!preg_match('/'. str_replace('/', '\/', get_host(home_url())) .'/i',$url)) {
-        //error_log("非法地址".$url.PHP_EOL, 3, "./php_3.log");
+        //error_log("Invalid URL".$url.PHP_EOL, 3, "./php_3.log");
         return getTimthumbImage($url, $size, $q, $nohttp);
     }
     else{
@@ -102,7 +102,7 @@ function getOptimizedImageUrl($url, $size, $q='70', $nohttp = false){
 
 
 /**
- * 转换尺寸
+ * Convert size
  */
 function getFormatedSize($size){
     if(is_array($size)){
@@ -135,9 +135,9 @@ function getFormatedSize($size){
 }
 
 /**
- * 获取顶级域名
+ * Get the top-level domain
  * @return [type] 
- * 比如www.iowen.cn返回iowen.cn
+ * For example, www.iowen.cn returns iowen.cn
  */
 function get_host($to_virify_url = ''){
     
@@ -145,7 +145,7 @@ function get_host($to_virify_url = ''){
     $data = explode('.', $url);
     $co_ta = count($data);
  
-    //判断是否是双后缀
+    // Check whether it has a double suffix
     $zi_tow = true;
     $host_cn = 'com.cn,net.cn,org.cn,gov.cn';
     $host_cn = explode(',', $host_cn);
@@ -155,10 +155,10 @@ function get_host($to_virify_url = ''){
         }
     }
  
-    //如果是返回FALSE ，如果不是返回true
+    // Return FALSE if it is, otherwise return true
     if($zi_tow == true){
  
-        // 是否为当前域名
+        // Whether it is the current domain
         if($url == 'localhost'){
             $host = $data[$co_ta-1];
         }

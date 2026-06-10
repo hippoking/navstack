@@ -7,7 +7,7 @@ $app_screen =  get_post_meta(get_the_ID(), '_app_screenshot', true);
 ?>
             <div class="row app-content py-5 mb-xl-5 mb-0 mx-xxl-n5">
                 <?php get_template_part( 'templates/fx' ); ?>
-                <!-- app信息 -->
+                <!-- App info -->
                 <div class="col">
                     <div class="d-md-flex mt-n3 mb-5 my-xl-0">
                         <div class="app-ico text-center mr-0 mr-md-2 mb-3 mb-md-0">
@@ -60,8 +60,8 @@ $app_screen =  get_post_meta(get_the_ID(), '_app_screenshot', true);
                         </div>
                     </div>
                 </div> 
-                <!-- app信息 end -->
-                <!-- 截图幻灯片 -->
+                <!-- App info end -->
+                <!-- Screenshot carousel -->
                 <?php if(!empty($app_screen)) { 
                 $app_screen = explode( ',', $app_screen ); ?>
                 <div class="col-12 col-xl-5"> 
@@ -101,7 +101,7 @@ $app_screen =  get_post_meta(get_the_ID(), '_app_screenshot', true);
                     </div>
                 </div> 
                 <?php } ?>
-                <!-- 截图幻灯片 end -->
+                <!-- Screenshot carousel end -->
             </div>  
             <div class="panel site-content card"> 
 		        <div class="card-body">
@@ -117,7 +117,7 @@ $app_screen =  get_post_meta(get_the_ID(), '_app_screenshot', true);
                 </div>
             </div>
             <?php if(count($down_list) > 1) { ?>
-            <!-- 历史版本 -->
+            <!-- Version history -->
             <h4 class="text-gray text-lg my-4"><i class="iconfont icon-version icon-lg mr-1" id="historic"></i><?php _e('历史版本','i_theme') ?></h4>
             <div class="card historic"> 
 		        <div class="card-body" id="accordionExample">
@@ -151,7 +151,7 @@ $app_screen =  get_post_meta(get_the_ID(), '_app_screenshot', true);
                     <?php $i++; } ?>  
                 </div>
             </div>
-            <!-- 历史版本 end -->
+            <!-- Version history end -->
             <?php } ?>
             <div class="modal fade search-modal" id="app-down-modal">
                 <div class="modal-dialog modal-dialog-centered">

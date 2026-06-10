@@ -1,6 +1,6 @@
 <?php  if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
- * 添加网址小卡片
+ * Add small site cards
  * [site_card ids=1][/site_card]
  * [site_card ids=1,2,3][/site_card]
  */
@@ -43,7 +43,7 @@ function add_site_card( $atts, $content = null ){
 }
 
 /**
- * 添加文章小卡片
+ * Add small post cards
  * [post_card ids=1][/post_card]
  * [post_card ids=1,2,3][/post_card]
  */
@@ -83,7 +83,7 @@ function add_post_card( $atts, $content = null ){
 }
 
 /**
- * 添加文章小卡片
+ * Add small app cards
  * [app_card ids=1][/app_card]
  * [app_card ids=1,2,3][/app_card]
  */
@@ -125,7 +125,7 @@ function add_app_card( $atts, $content = null ){
     return $content;
 }
 /**
- * 短代码广告
+ * Shortcode ad
  * [ad]
  */
 add_shortcode("ad", "post_ad");

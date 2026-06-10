@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-//外链图片自动本地化
+// Automatically localize external images
 function ecp_save_post($post_id, $post) {
 	global $wpdb;
 	if($post->post_status == 'publish') {

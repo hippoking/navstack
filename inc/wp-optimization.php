@@ -1,44 +1,44 @@
 <?php if ( ! defined( 'ABSPATH' )  ) { die; }
 /*
- * WordPress 优化
+ * WordPress optimization
  */
  
 # --------------------------------------------------------------------
-# 屏蔽文章修订
+# Disable post revisions
 # --------------------------------------------------------------------
 if(io_get_option('diable_revision')){ 
     remove_action('pre_post_update', 'wp_save_post_revision' ); 
-    /** 禁用自动保存 */
+    /** Disable autosave */
     add_action('wp_print_scripts', 'io_not_autosave');
     function io_not_autosave() {
         wp_deregister_script('autosave'); 
     } 
-    // 禁用版本修订
+    // Disable revisions
     add_filter( 'wp_revisions_to_keep', 'io_disable_wp_revisions_to_keep', 10, 2 );
     function io_disable_wp_revisions_to_keep( $num, $post ) {
     	return 0;
     }
 }
 # --------------------------------------------------------------------
-# 移除admin bar
+# Remove admin bar
 # --------------------------------------------------------------------
 if(io_get_option('remove_admin_bar')){
     add_filter('show_admin_bar', '__return_false');
 }
 # --------------------------------------------------------------------
-# 屏蔽字符转码
+# Disable texturize
 # --------------------------------------------------------------------
 if(io_get_option('disable_texturize')){
 	add_filter('run_wptexturize', '__return_false');
 }
 # --------------------------------------------------------------------
-# 禁用古腾堡
+# Disable Gutenberg
 # --------------------------------------------------------------------
 if(io_get_option('disable_gutenberg')){
     add_filter('use_block_editor_for_post_type', '__return_false');
 }
 # --------------------------------------------------------------------
-# 屏蔽站点Feed
+# Disable site feed
 # --------------------------------------------------------------------
 if( io_get_option('disable_feed') ) {
     function io_disable_feed() {
@@ -51,7 +51,7 @@ if( io_get_option('disable_feed') ) {
     add_action('do_feed_atom', 'io_disable_feed', 1);
 }
 # --------------------------------------------------------------------
-# 禁用 XML-RPC 接口
+# Disable the XML-RPC interface
 # --------------------------------------------------------------------
 if(io_get_option('disable_xml_rpc')){
     if(io_get_option('disable_gutenberg')){
@@ -63,7 +63,7 @@ if(io_get_option('disable_xml_rpc')){
 # ----------
 # --------------------------------------------------------------------
 add_filter('register_taxonomy_args', function($args){
-	// 屏蔽 REST API
+	// Disable REST API
 	if(io_get_option('disable_rest_api')){
 		$args['show_in_rest']	= false;
 	}
@@ -71,18 +71,18 @@ add_filter('register_taxonomy_args', function($args){
 	return $args;
 });
 add_filter('register_post_type_args', function($args){
-	// 屏蔽 REST API
+	// Disable REST API
 	if(io_get_option('disable_rest_api')){
-		//$args['show_in_rest']	= false;//影响古腾堡？
+		//$args['show_in_rest']	= false;// Does this affect Gutenberg?
 	}
 
 	if(!empty($args['supports']) && is_array($args['supports'])){
-		// 屏蔽 Trackback
+		// Disable trackbacks
 		if(io_get_option('disable_trackbacks')){
 			$args['supports']	= array_diff($args['supports'], ['trackbacks']);
 		}
 
-		//禁用日志修订功能
+		// Disable post revision support
 		if(io_get_option('diable_revision')){
 			$args['supports']	= array_diff($args['supports'], ['revisions']);
 		}
@@ -91,11 +91,11 @@ add_filter('register_post_type_args', function($args){
 	return $args;
 });
 # --------------------------------------------------------------------
-# 屏蔽Trackbacks
+# Disable trackbacks
 # --------------------------------------------------------------------
 if(io_get_option('disable_trackbacks')){
     if(io_get_option('disable_gutenberg') && io_get_option('disable_xml_rpc')){
-        //彻底关闭 pingback
+        // Completely disable pingback
         add_filter('xmlrpc_methods',function($methods){
             $methods['pingback.ping'] = '__return_false';
             $methods['pingback.extensions.getPingbacks'] = '__return_false';
@@ -103,10 +103,10 @@ if(io_get_option('disable_trackbacks')){
         });
     }
 
-    //禁用 pingbacks, enclosures, trackbacks
+    // Disable pingbacks, enclosures, and trackbacks
     remove_action( 'do_pings', 'do_all_pings', 10 );
 
-    //去掉 _encloseme 和 do_ping 操作。
+    // Remove _encloseme and do_ping actions.
     remove_action( 'publish_post','_publish_post_hook',5 );
 
      
@@ -115,7 +115,7 @@ if(io_get_option('disable_trackbacks')){
 	}); 
 }
 # --------------------------------------------------------------------
-# 屏蔽 REST API
+# Disable REST API
 # --------------------------------------------------------------------
 if(io_get_option('disable_rest_api')){
 	remove_action('init',			'rest_api_init' );
@@ -125,7 +125,7 @@ if(io_get_option('disable_rest_api')){
 	add_filter('rest_enabled',		'__return_false');
 	add_filter('rest_jsonp_enabled','__return_false');
 
-	// 移除头部 wp-json 标签和 HTTP header 中的 link 
+	// Remove the wp-json tag from the head and the link from the HTTP header
 	remove_action('wp_head',			'rest_output_link_wp_head', 10 );
 	remove_action('template_redirect',	'rest_output_link_header', 11);
 
@@ -139,37 +139,37 @@ if(io_get_option('disable_rest_api')){
 	remove_filter('rest_authentication_errors',	'rest_cookie_check_errors', 100 );
 }
 # --------------------------------------------------------------------
-# 移除 WP_Head 无关紧要的代码
+# Remove unnecessary WP_Head code
 # --------------------------------------------------------------------
 if(io_get_option('remove_head_links')){
-    remove_action( 'wp_head', 'wp_generator');					//删除 head 中的 WP 版本号
+    remove_action( 'wp_head', 'wp_generator');					// Remove the WP version number from head
     foreach (['rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head'] as $action) {
         remove_action( $action, 'the_generator' );
     }
-    remove_action( 'wp_head', 'rsd_link' );						//删除 head 中的 RSD LINK
-    remove_action( 'wp_head', 'wlwmanifest_link' );				//删除 head 中的 Windows Live Writer 的适配器？
-    remove_action( 'wp_head', 'feed_links_extra', 3 );		  	//删除 head 中的 Feed 相关的link
-    remove_action( 'wp_head', 'index_rel_link' );				//删除 head 中首页，上级，开始，相连的日志链接
+    remove_action( 'wp_head', 'rsd_link' );						// Remove the RSD link from head
+    remove_action( 'wp_head', 'wlwmanifest_link' );				// Remove the Windows Live Writer manifest from head
+    remove_action( 'wp_head', 'feed_links_extra', 3 );		  	// Remove feed-related links from head
+    remove_action( 'wp_head', 'index_rel_link' );				// Remove home, parent, start, and adjacent post links from head
     remove_action( 'wp_head', 'parent_post_rel_link', 10);
     remove_action( 'wp_head', 'start_post_rel_link', 10);
     remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10);
-    remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );	//删除 head 中的 shortlink
-    remove_action( 'wp_head', 'rest_output_link_wp_head', 10);	// 删除头部输出 WP RSET API 地址
-    remove_action( 'template_redirect',	'wp_shortlink_header', 11);		//禁止短链接 Header 标签。
-    remove_action( 'template_redirect',	'rest_output_link_header', 11);	// 禁止输出 Header Link 标签。
+    remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );	// Remove the shortlink from head
+    remove_action( 'wp_head', 'rest_output_link_wp_head', 10);	// Remove the WP REST API URL from head output
+    remove_action( 'template_redirect',	'wp_shortlink_header', 11);		// Prevent shortlink header output.
+    remove_action( 'template_redirect',	'rest_output_link_header', 11);	// Prevent header link output.
 } 
 # --------------------------------------------------------------------
-# 屏蔽后台隐私
+# Disable admin privacy features
 # --------------------------------------------------------------------
 if(io_get_option('disable_privacy')){
 
     add_action('admin_menu', function (){
         global $menu, $submenu;
 
-        // 移除设置菜单下的隐私子菜单。
+        // Remove the Privacy submenu under Settings.
         unset($submenu['options-general.php'][45]);
 
-        // 移除工具彩带下的相关页面
+        // Remove related pages under the tools banner
         remove_action( 'admin_menu', '_wp_privacy_hook_requests_page' );
 
         remove_filter( 'wp_privacy_personal_data_erasure_page', 'wp_privacy_process_personal_data_erasure_page', 10, 5 );
@@ -191,7 +191,7 @@ if(io_get_option('disable_privacy')){
     },9);
 }
 # --------------------------------------------------------------------
-# 屏蔽 Emoji
+# Disable Emoji
 # --------------------------------------------------------------------
 if(io_get_option('emoji_switcher')){
 	remove_action('admin_print_scripts','print_emoji_detection_script');
@@ -212,7 +212,7 @@ if(io_get_option('emoji_switcher')){
 	});
 }
 # --------------------------------------------------------------------
-# 屏蔽文章Embed
+# Disable post embeds
 # --------------------------------------------------------------------
 if(io_get_option('disable_post_embed')){  
 	
@@ -236,7 +236,7 @@ if(io_get_option('disable_post_embed')){
 	});
 }
 # --------------------------------------------------------------------
-# 去掉URL中category
+# Remove category from URLs
 # --------------------------------------------------------------------
 if( io_get_option('ioc_category') ) {
     add_action( 'load-themes.php',  'no_category_base_refresh_rules');
@@ -247,7 +247,7 @@ if( io_get_option('ioc_category') ) {
         global $wp_rewrite;
         $wp_rewrite -> flush_rules();
     }
-    // 删除类别库
+    // Remove the category base
     add_action('init', 'no_category_base_permastruct');
     function no_category_base_permastruct() {
         global $wp_rewrite, $wp_version;
@@ -258,10 +258,10 @@ if( io_get_option('ioc_category') ) {
             $wp_rewrite->extra_permastructs['category']['struct'] = '%category%';
         }
     }
-    // 添加自定义类别重写规则
+    // Add custom category rewrite rules
     add_filter('category_rewrite_rules', 'no_category_base_rewrite_rules');
     function no_category_base_rewrite_rules($category_rewrite) {
-        //var_dump($category_rewrite); // 用于调试
+        //var_dump($category_rewrite); // For debugging
         $category_rewrite = array();
         $categories = get_categories(array('hide_empty' => false));
         foreach ($categories as $category) {
@@ -274,24 +274,24 @@ if( io_get_option('ioc_category') ) {
             $category_rewrite['(' . $category_nicename . ')/page/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
             $category_rewrite['(' . $category_nicename . ')/?$'] = 'index.php?category_name=$matches[1]';
         }
-        // 重定向来自Old Category Base的支持
+        // Support redirects from the old category base
         global $wp_rewrite;
         $old_category_base = get_option('category_base') ? get_option('category_base') : 'category';
         $old_category_base = trim($old_category_base, '/');
         $category_rewrite[$old_category_base . '/(.*)$'] = 'index.php?category_redirect=$matches[1]';
-        //var_dump($category_rewrite); // 用于调试
+        //var_dump($category_rewrite); // For debugging
         return $category_rewrite;
     }
-    // 添加'category_redirect'查询变量
+    // Add the 'category_redirect' query var
     add_filter('query_vars', 'no_category_base_query_vars');
     function no_category_base_query_vars($public_query_vars) {
         $public_query_vars[] = 'category_redirect';
         return $public_query_vars;
     }
-    // 如果设置了'category_redirect'，则重定向
+    // Redirect if 'category_redirect' is set
     add_filter('request', 'no_category_base_request');
     function no_category_base_request($query_vars) {
-        //print_r($query_vars); // 用于调试
+        //print_r($query_vars); // For debugging
         if (isset($query_vars['category_redirect'])) {
             $catlink = trailingslashit(get_option('home')) . user_trailingslashit($query_vars['category_redirect'], 'category');
             status_header(301);
@@ -302,7 +302,7 @@ if( io_get_option('ioc_category') ) {
     }
 }
 # --------------------------------------------------------------------
-# 禁用 Auto OEmbed
+# Disable Auto OEmbed
 # --------------------------------------------------------------------
 if(io_get_option('disable_autoembed')){ 
 	remove_filter('the_content',			[$GLOBALS['wp_embed'], 'run_shortcode'], 8);
@@ -315,7 +315,7 @@ if(io_get_option('disable_autoembed')){
 	remove_action('edit_page_form',			[$GLOBALS['wp_embed'], 'maybe_run_ajax_cache']);
 }
 # --------------------------------------------------------------------
-# Gravatar加速
+# Gravatar acceleration
 # --------------------------------------------------------------------
 add_filter('pre_get_avatar_data', function($args, $id_or_email){
 	$email_hash	= '';
@@ -384,7 +384,7 @@ add_filter('pre_get_avatar_data', function($args, $id_or_email){
 
 }, 10, 2);
 # --------------------------------------------------------------------
-# 前台不加载语言包
+# Do not load language packs on the frontend
 # --------------------------------------------------------------------
 //if(io_get_option('locale')){
 //	add_filter('locale', function($locale){ 
@@ -406,7 +406,7 @@ add_filter('pre_get_avatar_data', function($args, $id_or_email){
 //	});
 //}
 # --------------------------------------------------------------------
-# 移除后台界面右上角的帮助
+# Remove the help button at the top right of the admin UI
 # --------------------------------------------------------------------
 if(io_get_option('remove_help_tabs')){  
 	add_action('in_admin_header', function(){
@@ -415,14 +415,14 @@ if(io_get_option('remove_help_tabs')){
 	});
 }
 # --------------------------------------------------------------------
-# 移除后台界面右上角的选项
+# Remove the options button at the top right of the admin UI
 # --------------------------------------------------------------------
 if(io_get_option('remove_screen_options')){  
 	add_filter('screen_options_show_screen', '__return_false');
 	add_filter('hidden_columns', '__return_empty_array');
 }
 # --------------------------------------------------------------------
-# 禁止使用 admin 用户名尝试登录
+# Block login attempts using the admin username
 # --------------------------------------------------------------------
 if(io_get_option('no_admin')){
 	add_filter( 'wp_authenticate',  function ($user){
@@ -437,7 +437,7 @@ if(io_get_option('no_admin')){
 	}, 10, 3);
 }
 # --------------------------------------------------------------------
-# 压缩网站源码
+# Compress site HTML source
 # --------------------------------------------------------------------
 if(io_get_option('compress_html')){
     add_action('get_header', 'wp_compress_html');
@@ -470,7 +470,7 @@ if(io_get_option('compress_html')){
     }
 }
 # --------------------------------------------------------------------
-# 屏蔽默认小工具
+# Disable default widgets
 # --------------------------------------------------------------------
 add_action( 'widgets_init', 'my_unregister_widgets' );   
 function my_unregister_widgets() {   

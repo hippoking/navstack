@@ -1,5 +1,5 @@
 <?php
-// 文章分类SEO设置
+// Post category SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'category_meta'; 
   
@@ -35,7 +35,7 @@ if( class_exists( 'CSF' ) ) {
     ));
 }
 
-// 文章标签SEO设置
+// Post tag SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'post_tag_meta'; 
   
@@ -70,7 +70,7 @@ if( class_exists( 'CSF' ) ) {
         )
     ));
 }
-// 网址分类SEO设置
+// Site category SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'favorites_options'; 
   
@@ -90,9 +90,9 @@ if( class_exists( 'CSF' ) ) {
             //array(
             //    'id'      => '_term_order',
             //    'type'    => 'number',
-            //    'title'   => __('排序','io_setting'),
+            //    'title'   => __('Sort order','io_setting'),
             //    'default' => 0,
-            //    'after'   => '此选项将被弃用，请到主题设置-->基础设置排序',
+            //    'after'   => 'This option will be deprecated. Please use Theme Settings --> Basic Settings for sorting.',
             //), 
             array(
                 'type'    => 'subheading',
@@ -118,7 +118,7 @@ if( class_exists( 'CSF' ) ) {
     ));
 }
 
-// 网址标签SEO设置
+// Site tag SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'sitetag_meta'; 
   
@@ -153,7 +153,7 @@ if( class_exists( 'CSF' ) ) {
         )
     ));
 }
-// app分类SEO设置
+// App category SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'apps_meta'; 
   
@@ -173,9 +173,9 @@ if( class_exists( 'CSF' ) ) {
             //array(
             //    'id'      => '_term_order',
             //    'type'    => 'number',
-            //    'title'   => __('排序','io_setting'),
+            //    'title'   => __('Sort order','io_setting'),
             //    'default' => 0,
-            //    'after'   => '此选项将被弃用，请到主题设置-->基础设置排序',
+            //    'after'   => 'This option will be deprecated. Please use Theme Settings --> Basic Settings for sorting.',
             //), 
             array(
                 'type'    => 'subheading',
@@ -201,7 +201,7 @@ if( class_exists( 'CSF' ) ) {
     ));
 }
 
-// app标签SEO设置
+// App tag SEO settings
 if( class_exists( 'CSF' ) ) {
     $prefix = 'apptag_meta'; 
   

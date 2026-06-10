@@ -29,7 +29,7 @@ if(! defined('MEMORY_LIMIT') )              define ('MEMORY_LIMIT', '30M');     
 if(! defined('BLOCK_EXTERNAL_LEECHERS') )   define ('BLOCK_EXTERNAL_LEECHERS', false);              // If the image or webshot is being loaded on an external site, display a red "No Hotlinking" gif.
 if(! defined('DISPLAY_ERROR_MESSAGES') )    define ('DISPLAY_ERROR_MESSAGES', true);                // Display error messages. Set to false to turn off errors (good for production websites)
 //Image fetching and caching
-if(! defined('ALLOW_EXTERNAL') )            define ('ALLOW_EXTERNAL', true);                        // 改为 false 将禁止裁剪外链图片,true 为允许从外部网站获取图像。如果 ALLOW_ALL_EXTERNAL_SITES 为 false，将检查ALLOWED_SITES
+if(! defined('ALLOW_EXTERNAL') )            define ('ALLOW_EXTERNAL', true);                        // Set to false to block cropping external images; true allows fetching images from external sites. If ALLOW_ALL_EXTERNAL_SITES is false, ALLOWED_SITES will be checked
 if(! defined('ALLOW_ALL_EXTERNAL_SITES') )  define ('ALLOW_ALL_EXTERNAL_SITES', false);             // Less secure. 
 if(! defined('FILE_CACHE_ENABLED') )        define ('FILE_CACHE_ENABLED', TRUE);                    // Should we store resized/modified images on disk to speed things up?
 if(! defined('FILE_CACHE_TIME_BETWEEN_CLEANS')) define ('FILE_CACHE_TIME_BETWEEN_CLEANS', 2592000); // How often the cache is cleaned 
@@ -129,7 +129,7 @@ if(! defined('WEBSHOT_XVFB_RUNNING') )  define ('WEBSHOT_XVFB_RUNNING', false); 
 // If ALLOW_EXTERNAL is true and ALLOW_ALL_EXTERNAL_SITES is false, then external images will only be fetched from these domains and their subdomains. 
 if(! isset($ALLOWED_SITES)){
     $ALLOWED_SITES = array (
-        'iowen.cn',//可删
+        'iowen.cn',// Optional, can be removed
         's2.ax1x.com',
         'i.loli.net',
         'n.sinaimg.cn',

@@ -71,9 +71,9 @@ include( 'templates/sidebar-nav.php' );
 			</div>
     	    <div class="near-navigation rounded mt-4 py-2">
     	    	<?php
-    	    	$current_category = get_the_category();//获取当前文章所属分类ID
-    	    	$prev_post = get_previous_post($current_category,'');//与当前文章同分类的上一篇文章
-    	    	$next_post = get_next_post($current_category,'');//与当前文章同分类的下一篇文章
+    	    	$current_category = get_the_category();// Get current post category IDs
+    	    	$prev_post = get_previous_post($current_category,'');// Previous post in the same category
+    	    	$next_post = get_next_post($current_category,'');// Next post in the same category
     	    	?>
     	    	<?php if (!empty( $prev_post )) { ?>
     	    	<div class="nav previous border-right border-color">

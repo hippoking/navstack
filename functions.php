@@ -11,13 +11,13 @@ function my_theme_setup(){
     load_theme_textdomain( 'io_setting', get_template_directory() . '/languages' );
 }
 
-//登录页面的LOGO链接为首页链接
+// Make the login page logo link point to the homepage
 add_filter('login_headerurl',function() {return get_bloginfo('url');});
-//登陆界面logo的title为博客副标题
+// Make the login page logo title use the blog subtitle
 add_filter('login_headertext',function() {return get_bloginfo( 'description' );});
 
 /**
- * 启用主题后进仪表盘 
+ * Open the dashboard after enabling the theme
  */
 add_action('load-themes.php', 'Init_theme');
 function Init_theme(){
@@ -37,7 +37,7 @@ function Init_theme(){
 
 
 /**
- * 禁止自动生成 768px 缩略图
+ * Disable automatic generation of 768px thumbnails
  */
 function shapeSpace_customize_image_sizes($sizes) {
     unset($sizes['medium_large']);
@@ -45,13 +45,13 @@ function shapeSpace_customize_image_sizes($sizes) {
   }
 add_filter('intermediate_image_sizes_advanced', 'shapeSpace_customize_image_sizes');
 /**
- * wordpress禁用图片属性srcset和sizes
+ * Disable WordPress image srcset and sizes attributes
  */
 add_filter( 'add_image_size', function(){return 1;} );
 add_filter( 'wp_calculate_image_srcset_meta', '__return_false' );
  
 /**
- * 禁止WordPress自动生成缩略图
+ * Disable WordPress automatic thumbnail generation
  */
 function ztmao_remove_image_size($sizes) {
     unset( $sizes['small'] );
@@ -62,7 +62,7 @@ function ztmao_remove_image_size($sizes) {
 add_filter('image_size_names_choose', 'ztmao_remove_image_size');
 
 
-# 支持自定义功能
+# Support custom features
 # ------------------------------------------------------------------------------
 //add_action( 'admin_notices', 'webstacks_init_check' );
 function webstacks_init_check(){
@@ -86,7 +86,7 @@ function active_webstacks_notice() {
      		</div>';
     echo $notice;
 }
-# 说明
+# Notes
 # ------------------------------------------------------------------------------
 add_action('wp_dashboard_setup', 'example_add_dashboard_widgets' );
 function custom_dashboard_help() {
@@ -139,9 +139,9 @@ function example_add_dashboard_widgets() {
 
 
 
-//兼容性修改
-//更改自定义类型
-//通过图片地址获取图片id
+// Compatibility adjustments
+// Change custom types
+// Get image ID from image URL
 function io_get_attachment_id ($img_url) {
 	$cache_key	= md5($img_url);
 	$post_id	= wp_cache_get($cache_key, 'io_attachment_id' );
@@ -290,11 +290,11 @@ function change_app_ico(){
 }
 if( io_get_option('pro_allback') &&  is_admin() && get_option( 'io_is_to',0 )!=1){
   
-    change_app_meta(); //修改app截图到新字段，2.0218以后的测试版如果有app，需运行一次
+    change_app_meta(); // Move app screenshots to the new field; if apps exist in beta versions after 2.0218, run once
     change_app_ico();
 
-    change_sites_meta();//修改网址下载截图到新字段，2.0218以后的测试版下载资源如果添加了截图，需运行一次
-    change_sites_down();//修改网址下载地址到新字段，2.0218版本和以前的版本如果有下载资源，需运行一次
-    change_sites_ico();//修改网址图标到新格式，2.0218版本和以前的版本需运行一次
-    change_sites_qr();//修改公众号二维码到新格式，2.0218版本和以前的版本需运行一次
+    change_sites_meta();// Move site download screenshots to the new field; if screenshots were added in beta versions after 2.0218, run once
+    change_sites_down();// Move site download URLs to the new field; if download resources exist in version 2.0218 or earlier, run once
+    change_sites_ico();// Convert site icons to the new format; run once for version 2.0218 and earlier
+    change_sites_qr();// Convert WeChat QR codes to the new format; run once for version 2.0218 and earlier
 }

@@ -11,13 +11,13 @@
                     </a>
                     <?php } ?>
                     <?php if(io_get_option('weather') && io_get_option('weather_location')=='footer'){ ?>
-                    <!-- 天气  -->
+                    <!-- Weather -->
                     <div class="btn rounded-circle weather m-1">
                         <div id="he-plugin-simple" style="display: contents;"></div>
                         <script>WIDGET = {CONFIG: {"modules": "02","background": 5,"tmpColor": "888","tmpSize": 14,"cityColor": "888","citySize": 14,"aqiSize": 14,"weatherIconSize": 24,"alertIconSize": 18,"padding": "7px 2px 7px 2px","shadow": "1","language": "auto","borderRadius": 5,"fixed": "false","vertical": "middle","horizontal": "left","key": "a922adf8928b4ac1ae7a31ae7375e191"}}</script>
                         <script src="//widget.heweather.net/simple/static/js/he-simple-common.js?v=1.1"></script>
                     </div>
-                    <!-- 天气 end -->
+                    <!-- Weather end -->
                     <?php } ?>
                     <a href="javascript:" id="switch-mode" class="btn rounded-circle switch-dark-mode m-1" data-toggle="tooltip" data-placement="left" title="<?php _e('夜间模式','i_theme') ?>">
                         <i class="mode-ico iconfont icon-light"></i>
@@ -95,8 +95,8 @@
     });
     </script>
 <?php endif; ?>
-<!-- 自定义代码 -->
+<!-- Custom code -->
 <?php echo io_get_option('code_2_footer');?>
-<!-- end 自定义代码 -->
+<!-- End custom code -->
 </body>
 </html>

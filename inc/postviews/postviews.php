@@ -4,7 +4,7 @@ Name: WP-PostViews
 Author: Lester 'GaMerZ' Chan
 */
 
-// 添加设置菜单
+// Add settings menu
 add_action('admin_menu', 'ioo_postviews_menu');
 function ioo_postviews_menu() { 
 	add_options_page('PostViews',__('浏览计数','i_theme'),'manage_options','views_options', 'postviews_settings_admin');
@@ -13,7 +13,7 @@ function postviews_settings_admin() {
 	require get_template_directory() . '/inc/postviews/postviews-options.php';
 }
 
-// 统计文章浏览
+// Count post views
 add_action( 'wp_head', 'ioo_process_postviews' );
 function ioo_process_postviews() {
 	global $user_ID, $post;
@@ -100,7 +100,7 @@ function ioo_process_postviews() {
 	}
 }
 
-// 在启用WP_CACHE的情况下统计浏览
+// Count views when WP_CACHE is enabled
 add_action('wp_enqueue_scripts', 'ioo_postview_cache_count_enqueue');
 function ioo_postview_cache_count_enqueue() {
 	global $user_ID, $post;
@@ -137,7 +137,7 @@ function ioo_postview_cache_count_enqueue() {
 	}
 }
 
-// 确定显示
+// Determine whether to display
 function ioo_should_views_be_displayed($views_options = null) {
 	if ($views_options == null) {
 		$views_options = get_option('views_options');
@@ -146,7 +146,7 @@ function ioo_should_views_be_displayed($views_options = null) {
 	return ($display_option == 0);
 }
 
-// 显示文章浏览统计
+// Display post view statistics
 function the_views($display = true, $prefix = '', $postfix = '', $always = false) {
 	$post_views = (int) get_post_meta( get_the_ID(), 'views', true );
 	$views_options = get_option('views_options');
@@ -163,7 +163,7 @@ function the_views($display = true, $prefix = '', $postfix = '', $always = false
 	}
 }
 
-// 添加视图自定义栏目
+// Add custom view field
 add_action('publish_post', 'ioo_add_views_fields');
 add_action('publish_page', 'ioo_add_views_fields');
 function ioo_add_views_fields($post_ID) {
@@ -174,7 +174,7 @@ function ioo_add_views_fields($post_ID) {
 }
 
 
-// 公共变量
+// Public variables
 add_filter('query_vars', 'ioo_views_variables');
 function ioo_views_variables($public_query_vars) {
 	$public_query_vars[] = 'v_sortby';
@@ -182,7 +182,7 @@ function ioo_views_variables($public_query_vars) {
 	return $public_query_vars;
 }
 
-// 增加文章浏览统计
+// Increment post view statistics
 add_action( 'wp_ajax_postviews', 'ioo_increment_views' );
 add_action( 'wp_ajax_nopriv_postviews', 'ioo_increment_views' );
 function ioo_increment_views() {
@@ -208,7 +208,7 @@ function ioo_increment_views() {
 	}
 }
 
-// 后台文章列表添加浏览计数
+// Add the view count to the admin post list
 add_action('manage_posts_custom_column', 'ioo_add_postviews_column_content');
 add_filter('manage_posts_columns', 'ioo_add_postviews_column');
 add_action('manage_pages_custom_column', 'ioo_add_postviews_column_content');
@@ -219,14 +219,14 @@ function ioo_add_postviews_column($defaults) {
 }
 
 
-// 浏览次数
+// View count
 function ioo_add_postviews_column_content($column_name) {
 	if($column_name == 'views') {
 		if(function_exists('the_views')) { the_views(true, '', '', true); }
 	}
 }
 
-// 将数字四舍五入为K（千），M（百万）或B（十亿）
+// Round numbers to K (thousand), M (million), or B (billion)
 function ioo_postviews_round_number( $number, $min_value = 1000, $decimal = 1 ) {
 	if( $number < $min_value ) {
 		return number_format_i18n( $number );

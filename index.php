@@ -11,38 +11,38 @@ include( 'templates/sidebar-nav.php' );
     <div id="content" class="content-site customize-site">
 
     <?php  
-    // 加载公告模块
+    // Load bulletin module
     get_template_part( 'templates/bulletin' );  
 
-    // 加载搜索模块 
+    // Load search module 
     if(io_get_option('search_position') && in_array("home",io_get_option('search_position')) ){
         get_template_part( 'templates/tools','search' );
     } else {
         echo '<div class="no-search my-2 p-1"></div>';
     }
  
-    // 加载广告模块
+    // Load ad module
     get_template_part( 'templates/ads','hometop' );
 
-    // 加载文章模块
+    // Load article module
     get_template_part( 'templates/article','list' ); 
 
-    // 加载文章模块
+    // Load article module
     get_template_part( 'templates/tools','hotsearch' ); 
 
-    // 加载文章模块
+    // Load article module
     get_template_part( 'templates/tools','post' ); 
 
-    // 加载自定义模块
+    // Load custom module
     get_template_part( 'templates/tools','customize' ); 
 
-    // 加载热门模块
+    // Load trending module
     get_template_part( 'templates/tools','hotcontent' ); 
 
-    // 加载广告模块second
+    // Load second ad module
     get_template_part( 'templates/ads','homesecond' );
 
-    // 加载网址模块
+    // Load site module
     foreach($categories as $category) {
         if($category['menu_item_parent'] == 0){
             if(empty($category['submenu'])){ 
@@ -68,9 +68,9 @@ include( 'templates/sidebar-nav.php' );
         }
     } 
       
-    // 加载广告模块link
+    // Load link ad module
     get_template_part( 'templates/ads','homelink' );
-    // 加载友链模块
+    // Load friend links module
     get_template_part( 'templates/friendlink' ); ?>   
     </div> 
 <?php

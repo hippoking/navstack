@@ -1,25 +1,25 @@
 <?php
 /* -------------------------------------
- * By... 内容都是网上找的，一为只是做了整合
- * 文章地址：https://www.iowen.cn/wordpress-pinglunshenhepinglunhuifutongzhizhanghubiangengtongzhiwenzhangxiugaixinwenzhangyoujiantongai
- * 设置：
- * 1、模板提供两种头样式请到下方设置邮件头的样式
- * 2、邮件底部有广告位，可设置内容或者删除
+ * By... most of this content was collected online; iowen only consolidated it
+ * Article URL: https://www.iowen.cn/wordpress-pinglunshenhepinglunhuifutongzhizhanghubiangengtongzhiwenzhangxiugaixinwenzhangyoujiantongai
+ * Settings:
+ * 1. The template provides two header styles; set the email header style below
+ * 2. There is an ad slot at the bottom of the email; you can configure or remove it
  *-----------------------------------*/
  
 
 /*-------------------------------------
- * 头部风格，true 为居中, false 为标准
- * 效果查看：https://www.iowen.cn/demo/email-notify.html
- * 效果演示页的第一个为居中，其他的都为标准风格
- * 问题：标准风格右上角的菜单按钮在QQ手机邮箱里面没有隐藏，导致排版有点问题
- *      他没有生效 @media only screen and (max-width: 500px)
- *      在浏览器上表现正常。
+ * Header style: true means centered, false means standard
+ * Preview: https://www.iowen.cn/demo/email-notify.html
+ * On the demo page, the first example is centered and the others use the standard style
+ * Issue: in QQ Mail on mobile, the top-right menu button is not hidden in the standard style, which causes some layout issues
+ *        The @media only screen and (max-width: 500px) rule does not take effect there
+ *        It behaves normally in browsers.
  *-----------------------------------*/
 $style_center = false;
 
 
-//定义界面顶部区域内容,请注意修改您的主题目录
+// Define the top section content of the email; make sure to update your theme directory
 $email_headertop_center = '
     <div class="emailpaged" style="background-color: #f2f5f8;">
         <div class="emailcontent" style="width:96%;max-width:720px;text-align: left;margin: 0 auto;padding-top: 20px;padding-bottom: 20px">
@@ -53,7 +53,7 @@ $email_headertop = '
 ';
 
 /*---------------
-**----标题空间----
+**----Title spacer----
 **-------------*/
 
 $email_headerbot_center = '
@@ -73,7 +73,7 @@ else{
     define ('EMAIL_HEADER_BOT', $email_headerbot );
 }
  
-//定义界面底部区域内容，---[请注意修改下面广告图片地址,不需要请删除 <div class="emailad" ......</div> 这 4 行]---
+// Define the footer section content of the email. ---[Please update the ad image URL below. If you do not need it, delete the 4 lines containing <div class="emailad" ......</div>]---
 $email_footer = '
 				</div>
                 <div class="copyright" style="font-size:13px;line-height: 1.5;color: #777777;padding: 5px 0;text-align:center;">
@@ -86,7 +86,7 @@ $email_footer = '
 ';
 define ('emailfooter', $email_footer );
  
-//修改网站默认发信人以及邮箱
+// Change the site's default sender name and email
 function new_from_name($email){
     $wp_from_name = get_option('blogname');
     return $wp_from_name;
@@ -98,14 +98,14 @@ function new_from_email($email) {
 add_filter('wp_mail_from_name', 'new_from_name');
 add_filter('wp_mail_from', 'new_from_email');
 
-//评论通过 通知评论者
+// Notify the commenter when a comment is approved
 add_action('comment_unapproved_to_approved', 'iwill_comment_approved');
 function iwill_comment_approved($comment) {
   if(is_email($comment->comment_author_email)) {
     $post_link = get_permalink($comment->comment_post_ID);
-    // 邮件标题，可自行更改
+    // Email subject, can be changed as needed
     $title = '您在 [' . get_option('blogname') . '] 的评论已通过审核';
-    // 邮件内容，按需更改。如果不懂改，可以给我留言
+    // Email content, change as needed. If you are unsure, leave it as is
     $body = EMAIL_HEADER_TOP.'留言审核通过通知'.EMAIL_HEADER_BOT.'
         <p style="color: #6e6e6e;font-size:13px;line-height:24px;">您在' . get_option('blogname') . '《<a href="'.$post_link.'">'.get_the_title($comment->comment_post_ID).'</a>》发表的评论：</p>
         <p style="color: #6e6e6e;font-size:13px;line-height:24px;padding: 15px 20px;background:#f8f8f8;margin:0px;border: 1px solid #eee;">'.$comment->comment_content.'</p>
@@ -115,10 +115,10 @@ function iwill_comment_approved($comment) {
   }
 }
 
-/* 邮件评论回复美化版 */
+/* Styled email notifications for comment replies */
 function comment_mail_notify($comment_id) {
     $admin_email = get_bloginfo ('admin_email'); 
-    $admin_notify = '1'; // admin 要不要收回复通知 ( '1'=要 ; '0'=不要 )
+    $admin_notify = '1'; // Whether admin should receive reply notifications ('1' = yes; '0' = no)
     $comment = get_comment($comment_id);
     $comment_author_email = trim($comment->comment_author_email);
     $parent_id = $comment->comment_parent ? $comment->comment_parent : '';
@@ -140,7 +140,7 @@ function comment_mail_notify($comment_id) {
         $headers = "$from\nContent-Type: text/html; charset=" . get_option('blog_charset') . "\n";
         wp_mail( $to, $subject, $message, $headers );
     }
-    //文章新评论给管理员通知
+    // Notify the admin about new top-level comments
     if($parent_id == '' &&  $comment_author_email != $admin_email && $admin_notify == '1'){
         $wp_email = '';
         $subject = ' [' . get_option("blogname") . '] 上的文章有了新的评论';
@@ -155,7 +155,7 @@ function comment_mail_notify($comment_id) {
   }
   add_action('comment_post', 'comment_mail_notify');
 
-// 博客后台登录失败时发送邮件通知管理员
+// Send an email to the admin when a backend login attempt fails
 function wp_login_failed_notify(){
     date_default_timezone_set('PRC');
     $admin_email = get_bloginfo('admin_email');
@@ -195,7 +195,7 @@ function mk_logout_redirect_home($logouturl, $redir){
     return $logouturl . '&redirect_to=' . urlencode($redir);
 }
 
-//用户更新账户通知用户
+// Notify the user when their account is updated
 function user_profile_update( $user_id ) {
         $site_url = get_bloginfo('wpurl');
         $site_name = get_bloginfo('wpname');
@@ -208,7 +208,7 @@ function user_profile_update( $user_id ) {
 }
 add_action( 'profile_update', 'user_profile_update', 10, 2);
 
-//用户账户被删除通知用户
+// Notify the user when their account is deleted
 function iwilling_delete_user( $user_id ) {
     global $wpdb;
     $site_name = get_bloginfo('name');

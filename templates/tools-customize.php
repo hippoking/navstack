@@ -66,7 +66,7 @@
                 </div> 
             </div>  
         </div>
-    <!-- 模态框 -->
+    <!-- Modal -->
     <div class="modal fade" id="addSite">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">  

@@ -1,5 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } 
-// 搜索列表请到 inc\search-list.php 文件修改
+// Edit the search list in inc\search-list.php
 include( get_theme_file_path('/inc/search-list.php') ); 
 ?> 
 <div id="search" class="s-search mx-auto my-4">

@@ -1,10 +1,10 @@
 <?php
-### 变量
+### Variables
 $id = (isset($_GET['id'] ) ? intval($_GET['id'] ) : 0);
 $mode = (isset($_GET['mode'] ) ? trim($_GET['mode'] ) : '' );
 $text = '';
 
-### 表单处理
+### Form handling
 if(!empty($_POST['Submit'] )) {
 	check_admin_referer( 'wp-postviews_options' );
 	$views_options = array(
@@ -33,7 +33,7 @@ if(!empty($_POST['Submit'] )) {
 
 $views_options = get_option( 'views_options' );
 
-// 默认
+// Default
 if( !isset ( $views_options['use_ajax'] ) ) {
 	$views_options['use_ajax'] = 1;
 }

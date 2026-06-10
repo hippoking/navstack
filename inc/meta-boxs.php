@@ -117,15 +117,15 @@ if( class_exists( 'CSF' ) ) {
             //array(
             //    'id'      => '_sites_down',
             //    'type'    => 'text',
-            //    'title'   => __('下载地址','io_setting'),
-            //    'after'   => '<span style="color: red">后期将弃用，请在下方填写“下载地址信息”中填写，并修改以前添加的资源</span>',
+            //    'title'   => __('Download URL','io_setting'),
+            //    'after'   => '<span style="color: red">This will be deprecated later. Please fill it in under "Download URL Info" below and update resources added earlier.</span>',
 			//	'dependency' => array( '_sites_type', '==', 'down' ),
             //),
             //array(
             //    'id'      => '_sites_password',
             //    'type'    => 'text',
-            //    'title'   => __('网盘密码','io_setting'),
-            //    'after'   => '<span style="color: red">后期将弃用，请在下方填写“下载地址信息”中填写，并修改以前添加的资源</span>',
+            //    'title'   => __('Netdisk password','io_setting'),
+            //    'after'   => '<span style="color: red">This will be deprecated later. Please fill it in under "Download URL Info" below and update resources added earlier.</span>',
 			//	'dependency' => array( '_sites_type', '==', 'down' ),
             //),
             array(
@@ -212,12 +212,12 @@ if( class_exists( 'CSF' ) ) {
             //array(
             //    'id'     => '_rar_screenshot',
             //    'type'   => 'repeater',
-            //    'title'  => __('添加截图','io_setting'),
+            //    'title'  => __('Add screenshot','io_setting'),
             //    'fields' => array(
             //      array(
             //        'id'    => 'rar_screen',
             //        'type'  => 'media',
-            //        'title' => __('截图','io_setting'),
+            //        'title' => __('Screenshot','io_setting'),
             //      ),
             //    ),
 			//	'dependency' => array( '_sites_type', '==', 'down' ),
@@ -268,7 +268,7 @@ if( class_exists( 'CSF' ) ) {
         'fields'    => array(
             array(
                 'type'    => 'content',
-                'content' => __('排序：根据文章修改时间排序','io_setting'),//文章标题和seo标题为：app名称+app版本+更新日期+简介+APP状态<br>
+                'content' => __('排序：根据文章修改时间排序','io_setting'),// The post title and SEO title are: app name + app version + update date + summary + app status<br>
             ),
             array(
                 'id'      => '_app_ico',
@@ -353,12 +353,12 @@ if( class_exists( 'CSF' ) ) {
             //array(
             //    'id'     => 'app_screenshot',
             //    'type'   => 'repeater',
-            //    'title'  => __('添加截图','io_setting'),
+            //    'title'  => __('Add screenshot','io_setting'),
             //    'fields' => array(
             //      array(
             //        'id'    => 'app_screen',
             //        'type'  => 'media',
-            //        'title' => __('截图','io_setting'),
+            //        'title' => __('Screenshot','io_setting'),
             //      ),
             //    ),
             //),

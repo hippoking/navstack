@@ -12,7 +12,7 @@ include( 'sidebar-nav.php' );
 
     <?php  
 
-    // 加载搜索模块 
+    // Load search module 
     if(io_get_option('search_position') && in_array("home",io_get_option('search_position')) ){
         get_template_part( 'templates/tools','search' );
     } else {
@@ -29,7 +29,7 @@ include( 'sidebar-nav.php' );
                     </div>
                 </div>
         <?php
-        // 加载网址模块  
+        // Load site module  
                 $children = get_categories(array(
                     'taxonomy'   => 'favorites',
                     'meta_key'   => '_term_order',

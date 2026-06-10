@@ -1,6 +1,6 @@
 <?php
 /*
- * 如果当前帖子受密码保护，而访问者尚未输入密码，将不加载评论。
+ * If the current post is password protected and the visitor has not entered the password, do not load comments.
  */
 if ( post_password_required() ) {
 	return;
@@ -31,7 +31,7 @@ if ( post_password_required() ) {
     				<?php else : ?>
     				<form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform" class="text-sm mb-4">	
 						<div class="visitor-avatar d-flex flex-fill mb-2">
-							<?php if ( $user_ID )://判断是否登录，获取admin头像 ?>
+							<?php if ( $user_ID ):// Check login status and get the admin avatar ?>
 							<?php global $current_user;wp_get_current_user(); ?>
 							<img class="v-avatar rounded-circle" src="<?php echo get_avatar_url( $current_user->user_email, array('size'=>64));?>">
 							<p class="loginby ml-2" style="line-height: 32px;"><a href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><?php echo $user_identity; ?></a>&nbsp;&nbsp;<a href="<?php echo wp_logout_url(get_permalink()); ?>" title="<?php _e('退出','i_theme') ?>">[ <?php _e( '退出','i_theme') ?> ]</a></p>

@@ -92,7 +92,7 @@ function fav_con_tab_a($category,$parent_term) {
             <?php echo $parent_term['title']; ?>
         </h4>
         <?php } ?>
-        <!-- tab模式菜单 -->
+        <!-- Tab mode menu -->
         <div class="d-flex flex-fill flex-tab">
             <div class="overflow-x-auto">
             <div class='slider_menu mini_tab ajax-list-home' sliderTab="sliderTab" data-id="<?php echo  $parent_term['object_id'] ?>">
@@ -123,17 +123,17 @@ function fav_con_tab_a($category,$parent_term) {
             }
             ?>
         </div>
-        <!-- tab模式菜单 end -->
+        <!-- Tab mode menu end -->
         <div class="row ajax-<?php echo $parent_term['object_id'] ?> <?php echo io_get_option('site_card_mode') == 'min'?"row-sm":"" ?> mt-4" style="position: relative;">
         <?php show_card($site_n,$_mid['object_id'],$_mid['object']); ?>
         </div>
 <?php } 
 
 /**
- * 显示
- * @param  String $site_n 需显示的数量
- * @param  String $terms 分类id
- * @param  String $taxonomy 分类名
+ * Display
+ * @param  String $site_n Number of items to display
+ * @param  String $terms Category ID
+ * @param  String $taxonomy Taxonomy name
  */
 function show_card($site_n,$terms,$taxonomy){
     if ( !in_array( $taxonomy,array('favorites','apps','category') ) ){

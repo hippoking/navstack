@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-# 注册侧边栏
+# Register sidebars
 # --------------------------------------------------------------------
 if (function_exists('register_sidebar')){
 
@@ -43,7 +43,7 @@ if (function_exists('register_sidebar')){
 	) );
 
 }
-# 注册菜单
+# Register menus
 # --------------------------------------------------------------------
 register_nav_menus( array(
 	'nav_menu'    => __( '侧栏主菜单' , 'io_setting' ),
@@ -51,7 +51,7 @@ register_nav_menus( array(
     'main_menu'   => __( '顶部菜单' , 'io_setting' ),
     'search_menu' => __( '搜索推荐' , 'io_setting' ),
 ));
-# 添加菜单
+# Add menu output
 # --------------------------------------------------------------------
 function wp_menu($location){
     if ( function_exists( 'wp_nav_menu' ) && has_nav_menu($location) ) {
@@ -63,10 +63,10 @@ function wp_menu($location){
             echo '<li><a href="'.get_option('siteurl').'/wp-admin/nav-menus.php">'.__('请到[后台->外观->菜单]中设置菜单。','i_theme').'</a></li>';
     }
 }
-# 激活友情链接模块
+# Enable the friend links module
 # --------------------------------------------------------------------
 if(io_get_option('show_friendlink'))add_filter( 'pre_option_link_manager_enabled', '__return_true' );
-# 引用功能
+# Include features
 # --------------------------------------------------------------------
 require_once get_theme_file_path('/inc/framework/framework.php');
 require_once get_theme_file_path('/inc/theme-settings.php');
@@ -86,13 +86,13 @@ require_once get_theme_file_path('/inc/hot-search.php');
 require_once get_theme_file_path('/inc/email-notify.php');
 if(io_get_option('save_image')) require_once get_theme_file_path('/inc/save-image.php');
 if(io_get_option('post_views')) require_once get_theme_file_path('/inc/postviews/postviews.php');
-# 获取CSF框架设置（兼容1.0）
+# Get CSF framework settings (compatible with 1.0)
 # --------------------------------------------------------------------
 function io_get_option($option, $default = null){ 
     $options = get_option('io_get_option');
     return ( isset( $options[$option] ) ) ? $options[$option] : $default;
 }
-# 获取CSF框架图片
+# Get CSF framework image
 # --------------------------------------------------------------------
 function get_post_meta_img($post_id, $key, $single){
     $metas = get_post_meta($post_id, $key, $single);
@@ -102,7 +102,7 @@ function get_post_meta_img($post_id, $key, $single){
         return $metas;
     }
 }
-# 网站块类型（兼容1.0）
+# Site block type (compatible with 1.0)
 # --------------------------------------------------------------------
 function before_class($post_id){
     $metas      = get_post_meta_img($post_id, '_wechat_qr', true);
@@ -115,7 +115,7 @@ function before_class($post_id){
         return '';
     }
 }
-# 主题切换
+# Theme switching
 # --------------------------------------------------------------------
 function theme_mode(){
     $default_c = io_get_option('theme_mode');
@@ -129,7 +129,7 @@ function theme_mode(){
         return(trim($_COOKIE['night_mode']) == '0' ? 'io-black-mode' : $default_c); 
     }
 }
-# 获取自定义菜单列表
+# Get custom menu list
 # --------------------------------------------------------------------
 function get_menu_list( $theme_location ) {
     
@@ -165,7 +165,7 @@ function get_menu_list( $theme_location ) {
     }  
     return $io_menu_list;
 }
-# 新窗口访问
+# Open in new window
 # --------------------------------------------------------------------
 function new_window(){
     if(io_get_option('new_window'))
@@ -174,14 +174,14 @@ function new_window(){
         return '';
 }
 /**
- * 验证网址状态
+ * Check site status
  * ******************************************************************************************************
  */
 function security_check($url){
     if(io_get_option('show_speed'))
         echo'<img class="security_check d-none" data-ip="'.gethostbyname(format_url($url)).'" src="//'. format_url($url) .'/'.mt_rand().'.png' . '" width=1 height=1  onerror=check("'. $url .'")>';
 }
-# 后台检测网址状态
+# Check site status in admin
 # --------------------------------------------------------------------
 add_action('admin_bar_menu', 'invalid_prompt_menu', 1000);
 function invalid_prompt_menu() {
@@ -191,7 +191,7 @@ function invalid_prompt_menu() {
         global $wp_admin_bar;
         $menu_id = 'invalid';
         $args = array(
-            'post_type' => 'sites',// 文章类型
+            'post_type' => 'sites',// Post type
             'post_status' => 'publish',
             'meta_key' => 'invalid', 
             'meta_type' => 'NUMERIC', 
@@ -209,7 +209,7 @@ function invalid_prompt_menu() {
         wp_reset_postdata();
     }
 }
-# 网址状态面板
+# Site status panel
 # --------------------------------------------------------------------
 if( is_admin() && io_get_option('failure_valve')!=0 ){
     add_action('wp_dashboard_setup', 'example_add_invalid_widgets' ); 
@@ -221,7 +221,7 @@ if( is_admin() && io_get_option('failure_valve')!=0 ){
     	global $post;
         $n =io_get_option('failure_valve');
         $args = array(
-            'post_type' => 'sites',// 文章类型
+            'post_type' => 'sites',// Post type
             'post_status' => 'publish',
             'meta_key' => 'invalid', 
             'meta_type' => 'NUMERIC', 
@@ -244,7 +244,7 @@ if( is_admin() && io_get_option('failure_valve')!=0 ){
         wp_reset_postdata();
     }
 }
-# 后台检测投稿状态
+# Check submission status in admin
 # --------------------------------------------------------------------
 add_action('admin_bar_menu', 'pending_prompt_menu', 2000);
 function pending_prompt_menu() {
@@ -252,7 +252,7 @@ function pending_prompt_menu() {
     global $wp_admin_bar;
     $menu_id = 'pending';
     $args = array(
-        'post_type' => 'sites',// 文章类型
+        'post_type' => 'sites',// Post type
         'post_status' => 'pending',
     );
     $pending_items = new WP_Query( $args ); 
@@ -265,7 +265,7 @@ function pending_prompt_menu() {
     endif; 
     wp_reset_postdata();
 }
-# 格式化 url
+# Format URL
 # --------------------------------------------------------------------
 function format_url($url){
     if($url == '')
@@ -280,7 +280,7 @@ function format_url($url){
         return $url;
     }
 } 
-# 格式化数字 $precision int 精度
+# Format number, $precision is the integer precision
 # --------------------------------------------------------------------
 function format_number($n, $precision = 2)
 {
@@ -292,7 +292,7 @@ function format_number($n, $precision = 2)
    }
    return $out;
 }
-# 获取点赞数
+# Get like count
 # --------------------------------------------------------------------
 function get_like($id){
     if ( !$like_count = get_post_meta( $id, '_like_count', true ) ) {
@@ -305,7 +305,7 @@ function get_like($id){
     }
     return format_number($like_count);
 } 
-# 浏览总数
+# Total views
 # --------------------------------------------------------------------
 function author_posts_views($author_id = 'all',$display = true){
     global $wpdb;
@@ -320,7 +320,7 @@ function author_posts_views($author_id = 'all',$display = true){
         return $comment_views;
     }
 }
-# 获取分类下文章数量
+# Get the number of posts in a category
 # --------------------------------------------------------------------
 function io_get_category_count($input = '') {
     global $wpdb;
@@ -338,7 +338,7 @@ function io_get_category_count($input = '') {
         return $wpdb->get_var($SQL);
     }
 }
-# 网址块样式
+# Site card style
 # --------------------------------------------------------------------
 function get_columns($display = true){
 	$class = '';
@@ -366,7 +366,7 @@ function get_columns($display = true){
 	else
 		return $class;
 }
-# 时间格式转化
+# Time format conversion
 # --------------------------------------------------------------------
 function timeago( $ptime ) {
     date_default_timezone_set('PRC');
@@ -390,7 +390,7 @@ function timeago( $ptime ) {
         }
     };
 }
-# 评论高亮作者
+# Highlight the author in comments
 # --------------------------------------------------------------------
 function is_master($email = '') {
     if( empty($email) ) return;
@@ -399,7 +399,7 @@ function is_master($email = '') {
     if( $email == $adminEmail ||  in_array( $email, $handsome )  )
     echo '<span class="is-author"  data-toggle="tooltip" data-placement="right" title="'.__('博主','i_theme').'"><i class="iconfont icon-user icon-fw"></i></span>';
 }
-# 头衔
+# Title
 # --------------------------------------------------------------------
 function site_rank( $comment_author_email, $user_id ) {
     //$comment_rank = io_get_option( 'comment_rank' );
@@ -438,7 +438,7 @@ function site_rank( $comment_author_email, $user_id ) {
 	if( $comment_author_email != $adminEmail )
 		return $rank = '<span class="rank" data-toggle="tooltip" data-placement="right" title="'.__('头衔：','i_theme') . $rank .'，'.__('累计评论：','i_theme') . $num .'">'. $rank .'</span>';
 }
-# 评论格式
+# Comment format
 # --------------------------------------------------------------------
 if(!function_exists('my_comment_format')){
 	function my_comment_format($comment, $args, $depth){
@@ -478,7 +478,7 @@ if(!function_exists('my_comment_format')){
 		<?php
 	}
 }
-# 某作者文章浏览数
+# View count for a specific author's posts
 # --------------------------------------------------------------------
 if(!function_exists('author_posts_views')) {
 	function author_posts_views($author_id = 1 ,$display = true) {
@@ -492,7 +492,7 @@ if(!function_exists('author_posts_views')) {
 		}
 	}
 }
-# 获取作者所有文章点赞数
+# Get total likes across all posts by an author
 # --------------------------------------------------------------------
 if(!function_exists('author_posts_likes')) {
     function author_posts_likes($author_id = 'all' ,$display = true) {
@@ -510,7 +510,7 @@ if(!function_exists('author_posts_likes')) {
         }
     }
 }
-# 获取热门文章
+# Get popular posts
 # --------------------------------------------------------------------
 function get_timespan_most_viewed($mode = '', $limit = 10, $days = 7, $show_thumbs = false, $newWindow='', $display = true) {
 	global $wpdb, $post;
@@ -563,7 +563,7 @@ function get_timespan_most_viewed($mode = '', $limit = 10, $days = 7, $show_thum
 		return $temp;
 	}
 }
-# 获取热门网址
+# Get popular sites
 # --------------------------------------------------------------------
 function get_sites_most_viewed( $limit = 10, $days = 7, $newWindow='', $display = true) {
 	global $wpdb, $post;
@@ -622,7 +622,7 @@ function get_sites_most_viewed( $limit = 10, $days = 7, $newWindow='', $display 
 		return $temp;
 	}
 }
-# 归档页显示数量单独设置
+# Set archive page item counts separately
 # --------------------------------------------------------------------
 add_action('pre_get_posts', 'filter_pre_get_posts');
 function filter_pre_get_posts( $query ){
@@ -638,7 +638,7 @@ function filter_pre_get_posts( $query ){
     }
     return $query;
 }
-# 替换用户链接
+# Replace author links
 # --------------------------------------------------------------------
 add_filter('author_link', 'author_link', 10, 2);
 function author_link( $link, $author_id) {
@@ -666,7 +666,7 @@ function author_link_request( $query_vars ) {
     }
     return $query_vars;
 }
-# 屏蔽用户名称类
+# Remove user-name classes
 # --------------------------------------------------------------------
 add_filter('comment_class','remove_comment_body_author_class');
 add_filter('body_class','remove_comment_body_author_class');
@@ -678,7 +678,7 @@ function remove_comment_body_author_class( $classes ) {
 	}
 	return $classes;
 }
-# 禁止谷歌字体
+# Disable Google fonts
 # --------------------------------------------------------------------
 add_action( 'init', 'remove_open_sans' );
 function remove_open_sans() {
@@ -686,21 +686,21 @@ function remove_open_sans() {
     wp_register_style( 'open-sans', false );
     wp_enqueue_style('open-sans','');
 }
-# 字体增加
+# Add fonts
 # --------------------------------------------------------------------
 add_filter('tiny_mce_before_init', 'custum_fontfamily');
 function custum_fontfamily($initArray){  
    $initArray['font_formats'] = "微软雅黑='微软雅黑';宋体='宋体';黑体='黑体';仿宋='仿宋';楷体='楷体';隶书='隶书';幼圆='幼圆';";  
    return $initArray;  
 } 
-# 移除 WordPress 文章标题前的“私密/密码保护”提示文字
+# Remove the "Private/Password Protected" prefix from WordPress post titles
 # --------------------------------------------------------------------
-add_filter('private_title_format', 'remove_title_prefix');//私密
-add_filter('protected_title_format', 'remove_title_prefix');//密码保护
+add_filter('private_title_format', 'remove_title_prefix');// Private
+add_filter('protected_title_format', 'remove_title_prefix');// Password protected
 function remove_title_prefix($content) {
 	return '%s';
 }
-# 文章自动nofollow
+# Automatically add nofollow to post links
 # --------------------------------------------------------------------
 add_filter( 'the_content', 'ioc_seo_wl');
 function ioc_seo_wl( $content ) {
@@ -737,7 +737,7 @@ function ioc_seo_wl( $content ) {
     $content = str_replace(']]>', ']]>', $content);
     return $content;
 }
-# 正文外链跳转
+# Redirect external links in post content
 # --------------------------------------------------------------------
 if (io_get_option('is_go')) {
     add_filter('the_content','io_the_content_to',999);
@@ -752,7 +752,7 @@ if (io_get_option('is_go')) {
         return $content;
     }
 }
-# 评论作者链接跳转 or 评论作者链接新窗口打开
+# Redirect comment author links or open them in a new window
 # --------------------------------------------------------------------
 if (io_get_option('is_go')) {
     add_filter('get_comment_author_link', 'comment_author_link_to');
@@ -776,7 +776,7 @@ if (io_get_option('is_go')) {
             return "<a target='_blank' href='$url' rel='external nofollow' class='url'>$author</a>";
     }
 }
-# 定制CSS
+# Custom CSS
 # --------------------------------------------------------------------
 add_action('wp_head','modify_css');
 function modify_css(){
@@ -785,34 +785,34 @@ function modify_css(){
 		echo "<style>" . $css . "</style>";
 	}
 }
-# 移除系统菜单模块
+# Remove the system menu module
 # -------------------------------------------------------------------- 
 if ( is_admin() ) {   
     //add_action('admin_init','remove_submenu');  
     function remove_submenu() {   
-        remove_submenu_page( 'themes.php', 'theme-editor.php' );   //移除主题编辑页
+        remove_submenu_page( 'themes.php', 'theme-editor.php' );   // Remove the theme editor page
     }  
 }  
-# 重写规则
+# Rewrite rules
 # --------------------------------------------------------------------
 add_action('generate_rewrite_rules', 'io_rewrite_rules' );  
 if ( ! function_exists( 'io_rewrite_rules' ) ){ 
     function io_rewrite_rules( $wp_rewrite ){   
         $new_rules = array(    
             'go/?$'          => 'index.php?custom_page=go',
-        ); //添加翻译规则   
+        ); // Add rewrite rules   
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;   
-        //php数组相加   
+        // Add PHP arrays   
     }   
 } 
 add_action('query_vars', 'io_add_query_vars');  
 if ( ! function_exists( 'testthemes_add_query_vars' ) ){ 
     function io_add_query_vars($public_query_vars){     
-        $public_query_vars[] = 'custom_page'; //往数组中添加custom_page   
+        $public_query_vars[] = 'custom_page'; // Add custom_page to the array   
         return $public_query_vars;     
     }  
 } 
-add_action("template_redirect", 'io_template_redirect');   //模板载入规则  
+add_action("template_redirect", 'io_template_redirect');   // Template loading rules  
 if ( ! function_exists( 'io_template_redirect' ) ){ 
     function io_template_redirect(){   
         global $wp;   
@@ -827,7 +827,7 @@ if ( ! function_exists( 'io_template_redirect' ) ){
         }
     }
 } 
-# 激活主题更新重写规则
+# Refresh rewrite rules when the theme is activated
 # --------------------------------------------------------------------
 add_action( 'load-themes.php', 'io_flush_rewrite_rules' );   
 function io_flush_rewrite_rules() {   
@@ -835,7 +835,7 @@ function io_flush_rewrite_rules() {
     if ( 'themes.php' == $pagenow && isset( $_GET['activated'] ) )   
         $wp_rewrite->flush_rules();   
 }
-# 自定义图标
+# Custom icons
 # --------------------------------------------------------------------
 class iconfont {
 	function __construct(){
@@ -844,8 +844,8 @@ class iconfont {
     } 
 
 	function nav_menu_css_class($classes, $item, $args){
-        if($args->theme_location == 'nav_main') { //这里的 main 是菜单id
-            $classes[] = 'sidebar-item'; //这里的 nav-item 是要添加的class类
+        if($args->theme_location == 'nav_main') { // main here is the menu ID
+            $classes[] = 'sidebar-item'; // nav-item is the class to add here
         } 
 
 		if( is_array( $classes ) ){
@@ -892,20 +892,20 @@ class iconfont {
 }
 new iconfont();
 /**
- * 根据用户设置选择邮件发送方式
+ * Choose the mail sending method based on user settings
  */
 function i_switch_mailer($phpmailer){
     $mailer = io_get_option('i_default_mailer');
     if($mailer === 'smtp'){
-        $phpmailer->Host = io_get_option('i_smtp_host'); // 邮箱SMTP服务器
-        $phpmailer->SMTPAuth = true; // 强制它使用用户名和密码进行身份验证
-        $phpmailer->Port = io_get_option('i_smtp_port'); // SMTP端口
-        $phpmailer->Username = io_get_option('i_smtp_username'); // 邮箱账户
-        $phpmailer->Password = io_get_option('i_smtp_password'); // 此处填写邮箱生成的授权码，不是邮箱登录密码
+        $phpmailer->Host = io_get_option('i_smtp_host'); // Mailbox SMTP server
+        $phpmailer->SMTPAuth = true; // Force username/password authentication
+        $phpmailer->Port = io_get_option('i_smtp_port'); // SMTP port
+        $phpmailer->Username = io_get_option('i_smtp_username'); // Mailbox account
+        $phpmailer->Password = io_get_option('i_smtp_password'); // Use the mailbox authorization code here, not the login password
  
-        $phpmailer->SMTPSecure = io_get_option('i_smtp_secure'); // 端口25时 留空，465时 ssl，不需要改
-        $phpmailer->FromName = io_get_option('i_smtp_name'); // 发件人昵称
-        $phpmailer->From = $phpmailer->Username;  // 邮箱账户同上
+        $phpmailer->SMTPSecure = io_get_option('i_smtp_secure'); // Leave blank for port 25, use ssl for 465, usually no change needed
+        $phpmailer->FromName = io_get_option('i_smtp_name'); // Sender display name
+        $phpmailer->From = $phpmailer->Username;  // Same mailbox account as above
         $phpmailer->Sender = $phpmailer->From; 
         $phpmailer->AddReplyTo($phpmailer->From,$phpmailer->FromName); 
         $phpmailer->IsSMTP();
@@ -915,17 +915,17 @@ function i_switch_mailer($phpmailer){
     }
 }
 add_action('phpmailer_init', 'i_switch_mailer');
-# 搜索只查询文章和网址。
+# Limit search to posts and sites only.
 # --------------------------------------------------------------------
 //add_filter('pre_get_posts','searchfilter');
 function searchfilter($query) {
-    //限定对搜索查询和非后台查询设置
+    // Restrict this to frontend search queries
     if ($query->is_search && !is_admin() ) {
         $query->set('post_type',array('sites','post'));
     }
     return $query;
 }
-# 修改搜索查询的sql代码，将postmeta表左链接进去。
+# Modify the search query SQL to left join the postmeta table.
 # --------------------------------------------------------------------
 add_filter('posts_join', 'cf_search_join' );
 function cf_search_join( $join ) {
@@ -937,7 +937,7 @@ function cf_search_join( $join ) {
     }
     return $join;
 }
-add_filter('posts_where', 'cf_search_where');// 在wordpress查询代码中加入自定义字段值的查询。
+add_filter('posts_where', 'cf_search_where');// Add custom field value queries to the WordPress query.
 function cf_search_where( $where ) {
     if(is_admin())
         return $where; 
@@ -948,7 +948,7 @@ function cf_search_where( $where ) {
     }
     return $where;
 }
-add_filter('posts_distinct', 'cf_search_distinct');// 去重
+add_filter('posts_distinct', 'cf_search_distinct');// Deduplicate
 function cf_search_distinct($where) {
     if( is_admin() ) return $where;
     global $wpdb;

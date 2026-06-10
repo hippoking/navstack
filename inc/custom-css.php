@@ -14,7 +14,7 @@ function custom_color(){
         .header-mini-btn label:hover path{ stroke:" . $card_a_c . "}
         .url-card .max .tga a:not(.no-tag):hover,.card-app.card .tga a:not(.no-tag):hover{background:" . $card_a_c . "}
         .sidebar .url-card .card:hover{border: 1px solid " . $card_a_c . "!important;}"; 
-        //高亮色块
+        // Highlight color block
         $styles .= ".tags i{color:" . $piece_c . "}.custom-piece_c_b{background:" . $piece_c . "!important}.custom-piece_c{color:" . $piece_c . "!important}.slider_menu[sliderTab] .anchor,.customize-menu .btn-edit,.badge-danger,.comment-list .rank,.sidebar .card-header:after{background:" . $piece_c . "}.badge-outline-primary{color:" . $piece_c . ";border:" . $piece_c . " solid 1px}"; 
         $styles .= ".posts-nav .page-numbers.current, .posts-nav .page-numbers:not(.dots):hover {background-color:" . $piece_c . ";box-shadow: 0px 5px 20px -3px rgba(".hex2rgb($piece_c).",.6);}     
 .custom-control-input:not(:disabled):active~.custom-control-label::before{background-color:rgba(".hex2rgb($piece_c).",.15);border-color:rgba(".hex2rgb($piece_c).",.15);}
@@ -23,7 +23,7 @@ function custom_color(){
 .custom-control-input:checked~.custom-control-label::before{border-color:".$piece_c.";background-color:".$piece_c."}
 .btn-search:hover,.btn-search.current{background-color:".$piece_c.";box-shadow: 0 5px 20px -3px rgba(".hex2rgb($piece_c).",.6)}.btn-search.current:after{border-top-color:".$piece_c."}";
         
-        //按钮
+        // Buttons
         $styles .= " .custom_btn-outline {color: ".$bnt_c['color'].";background-color: transparent;border-color: ".$bnt_c['color'].";}
 .custom_btn-outline:hover {color: ".$bnt_c['hover-t'].";background-color: ".$bnt_c['hover'].";border-color: ".$bnt_c['hover'].";}
 .custom_btn-outline:focus, .custom_btn-outline.focus {color: ".$bnt_c['hover'].";box-shadow: 0 0 0 0 transparent!important;background-color: transparent;}

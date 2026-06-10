@@ -54,8 +54,8 @@ function theme_load_scripts() {
 		'ajaxurl'      => admin_url( 'admin-ajax.php' ),
 		'addico'       => get_theme_file_uri('/images/add.png'),
 		'order'        => get_option('comment_order'),
-        'formpostion'  => 'top', //默认为bottom，如果你的表单在顶部则设置为top。
-		'defaultclass' => io_get_option('theme_mode')=="io-black-mode"?'':io_get_option('theme_mode'), //默认为bottom，如果你的表单在顶部则设置为top。
+        'formpostion'  => 'top', // Defaults to bottom; set to top if your form is at the top.
+		'defaultclass' => io_get_option('theme_mode')=="io-black-mode"?'':io_get_option('theme_mode'), // Defaults to bottom; set to top if your form is at the top.
 		'isCustomize'  => io_get_option('customize_card'),
 		'icourl'       => io_get_option('ico-source')['ico_url'],
 		'icopng'       => io_get_option('ico-source')['ico_png'],

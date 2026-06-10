@@ -15,7 +15,7 @@ CSF::createOptions( $prefix, array(
     'footer_credit'   => '感谢您使用 <a href="https://www.iowen.cn/" target="_blank">一为</a>的WordPress主题',
 ));
 
-// 所有文章分类ID
+// All post category IDs
 function get_cats_id(){  
     if( ! is_admin() ) { return; }
     $cats_id = '';
@@ -25,7 +25,7 @@ function get_cats_id(){
     } 
     return $cats_id;
 }
-// 获取自定义文章父分类
+// Get parent terms for custom taxonomies
 if(!function_exists('get_all_taxonomy')){
 	function get_all_taxonomy(){  
         if( ! is_admin() ) { return; }
@@ -44,7 +44,7 @@ if(!function_exists('get_all_taxonomy')){
     }
 }
 //
-// 图标设置
+// Icon settings
 //
 CSF::createSection( $prefix, array(
   'title'        => __('图标设置','io_setting'),
@@ -119,7 +119,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 主题颜色
+// Theme colors
 //
 CSF::createSection( $prefix, array(
     'title'        => __('主题颜色','io_setting'),
@@ -191,7 +191,7 @@ CSF::createSection( $prefix, array(
   
   
 //
-// 基础设置
+// Basic settings
 //
 CSF::createSection( $prefix, array(
     'title'  => __('基础设置','io_setting'),
@@ -309,7 +309,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 首页设置
+// Homepage settings
 //
 CSF::createSection( $prefix, array(
     'title'        => __('首页设置','io_setting'),
@@ -551,7 +551,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 内容设置
+// Content settings
 //
 CSF::createSection( $prefix, array(
     'id'    => 'srticle_settings',
@@ -559,7 +559,7 @@ CSF::createSection( $prefix, array(
     'icon'  => 'fa fa-file-text',
 ));
 //
-// 文章
+// Posts
 //
 CSF::createSection( $prefix, array(
     'parent'   => 'srticle_settings',
@@ -620,7 +620,7 @@ CSF::createSection( $prefix, array(
     )
 ));
 //
-// 网址设置
+// Site settings
 //
 CSF::createSection( $prefix, array(
     'parent'   => 'srticle_settings',
@@ -655,7 +655,7 @@ CSF::createSection( $prefix, array(
     )
 ));
 //
-// app设置
+// App settings
 //
 CSF::createSection( $prefix, array(
     'parent'   => 'srticle_settings',
@@ -683,9 +683,9 @@ CSF::createSection( $prefix, array(
         //array(
         //    'id'        => 'default_app_screen',
         //    'type'      => 'media',
-        //    'title'     => __('app 默认截图','io_setting'),
-        //    'add_title' => __('添加','io_setting'),
-        //    'after'     => __('app截图为空时显示这项设置的内容','io_setting'),
+        //    'title'     => __('Default app screenshot','io_setting'),
+        //    'add_title' => __('Add','io_setting'),
+        //    'after'     => __('Show this content when the app screenshot is empty','io_setting'),
         //    'default'   => array(
         //        'url'       => get_theme_file_uri('/screenshot.jpg'),
         //        'thumbnail' => get_theme_file_uri('/screenshot.jpg'),
@@ -695,7 +695,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 页脚设置
+// Footer settings
 //
 CSF::createSection( $prefix, array(
     'title'    => __('页脚设置','io_setting'),
@@ -725,7 +725,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// SEO设置
+// SEO settings
 //
 CSF::createSection( $prefix, array(
     'title'       => __('SEO设置','io_setting'),
@@ -837,7 +837,7 @@ CSF::createSection( $prefix, array(
 ));
  
 //
-// 其他功能
+// Other features
 //
 CSF::createSection( $prefix, array(
     'title'  => __('其他功能','io_setting'),
@@ -1051,7 +1051,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 添加代码
+// Add custom code
 //
 CSF::createSection( $prefix, array(
     'title'       => '添加代码',
@@ -1084,7 +1084,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 广告位
+// Ad slots
 //
 CSF::createSection( $prefix, array(
     'id'    => 'add-ad',
@@ -1092,7 +1092,7 @@ CSF::createSection( $prefix, array(
     'icon'  => 'fa fa-google',
 ));
 //
-// 首页广告
+// Homepage ads
 //
 CSF::createSection( $prefix, array(
     'parent'      => 'add-ad',
@@ -1261,7 +1261,7 @@ CSF::createSection( $prefix, array(
     )
 ));
 //
-// 文章广告
+// Post ads
 //
 CSF::createSection( $prefix, array(
     'parent'      => 'add-ad',
@@ -1383,7 +1383,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 优化设置
+// Optimization settings
 //
 CSF::createSection( $prefix, array(
     'id'    => 'optimize',
@@ -1392,7 +1392,7 @@ CSF::createSection( $prefix, array(
 ));
   
 //
-// 禁用功能
+// Disable features
 //
 CSF::createSection( $prefix, array(
     'parent'      => 'optimize',
@@ -1491,7 +1491,7 @@ CSF::createSection( $prefix, array(
 ));
 
 //
-// 优化加速
+// Performance optimization
 //
 CSF::createSection( $prefix, array(
     'parent'      => 'optimize',
@@ -1524,8 +1524,8 @@ CSF::createSection( $prefix, array(
 		//array(
 		//	'id'      => 'locale',
 		//	'type'    => 'switcher',
-		//	'title'   => __('前台不加载语言包','io_setting'),
-		//	'label'   => __('前台不加载语言包，节省加载语言包所需的0.1-0.5秒。','io_setting'),
+		//	'title'   => __('Do not load language packs on the frontend','io_setting'),
+		//	'label'   => __('Do not load language packs on the frontend to save the 0.1-0.5 seconds they require.','io_setting'),
 		//	'default' => false
 		//),
 
@@ -1572,7 +1572,7 @@ CSF::createSection( $prefix, array(
  
 
 //
-// 备份
+// Backup
 //
 CSF::createSection( $prefix, array(
     'title'       => __('备份设置','io_setting'),
@@ -1580,7 +1580,7 @@ CSF::createSection( $prefix, array(
     'description' => __('仅能保存主题设置，不能保存整站数据。（此操作可能会清除设置数据，请谨慎操作）','io_setting'),
     'fields'      => array( 
 
-        // 备份
+        // Backup
         array(
             'type' => 'backup',
         ),
